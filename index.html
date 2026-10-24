@@ -1,0 +1,2768 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ilania — Premium Digital Marketplace | By Raj Gautam</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        bgDark: '#0f0f1e',
+                        bgCard: '#16213e',
+                        bgHover: '#1e2a4a',
+                        accent: '#ff6b35',
+                        accentHover: '#ff8456',
+                        purpleAccent: '#9b59ff',
+                        textMain: '#e8e8f0',
+                        textDim: '#a0a0b8',
+                        borderDark: '#2a2a3e'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ========== CORE VARIABLES & RESET ========== */
+        :root {
+            --bg-dark: #0f0f1e;
+            --bg-card: #16213e;
+            --bg-hover: #1e2a4a;
+            --accent: #ff6b35;
+            --accent-hover: #ff8456;
+            --purple: #9b59ff;
+            --text: #e8e8f0;
+            --text-dim: #a0a0b8;
+            --border: #2a2a3e;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f1e; }
+        ::-webkit-scrollbar-thumb { background: #2a2a3e; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff6b35; }
+
+        /* ========== 1. STICKY SCROLL PROGRESS BAR ========== */
+        .scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #ffb347, var(--purple));
+            z-index: 2000;
+            width: 0%;
+            box-shadow: 0 0 12px var(--accent);
+            transition: width 0.08s linear;
+        }
+
+        /* ========== 2. MARQUEE TICKER ========== */
+        .marquee-bar {
+            background: linear-gradient(90deg, #ff6b35, #e85d2a, #9b59ff, #ff6b35);
+            background-size: 300% 100%;
+            animation: gradientShift 12s ease infinite;
+            color: #fff;
+            overflow: hidden;
+            padding: 6px 0;
+            font-size: 0.78rem;
+            font-weight: 600;
+            position: fixed;
+            top: 3px; left: 0; right: 0;
+            z-index: 1050;
+        }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .marquee-track {
+            display: flex;
+            gap: 48px;
+            white-space: nowrap;
+            animation: marqueeMove 28s linear infinite;
+            width: max-content;
+        }
+        .marquee-bar:hover .marquee-track { animation-play-state: paused; }
+        @keyframes marqueeMove {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* ========== 3. GLASSMORPHISM NAVBAR ========== */
+        .navbar {
+            position: fixed;
+            top: 31px; left: 0; right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(15, 15, 30, 0.65);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(42, 42, 62, 0.5);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+        }
+        .navbar.scrolled {
+            padding: 10px 0;
+            background: rgba(15, 15, 30, 0.92);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+            border-bottom-color: var(--border);
+        }
+
+        /* ========== 4. AURORA & RIPPLE HERO BG ========== */
+        .aurora-container {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .aurora-blob-1 {
+            position: absolute;
+            width: 55vw; height: 55vw;
+            max-width: 650px; max-height: 650px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.25), transparent 70%);
+            filter: blur(70px);
+            top: -15%; left: -10%;
+            animation: auroraMove1 11s ease-in-out infinite alternate;
+        }
+        .aurora-blob-2 {
+            position: absolute;
+            width: 50vw; height: 50vw;
+            max-width: 600px; max-height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(155, 89, 255, 0.22), transparent 70%);
+            filter: blur(75px);
+            bottom: -15%; right: -10%;
+            animation: auroraMove2 14s ease-in-out infinite alternate;
+        }
+        @keyframes auroraMove1 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(18%, 15%) scale(1.25); }
+        }
+        @keyframes auroraMove2 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-18%, -12%) scale(1.3); }
+        }
+        .ripple-grid {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255, 107, 53, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 107, 53, 0.05) 1px, transparent 1px);
+            background-size: 44px 44px;
+            mask-image: radial-gradient(circle at 50% 45%, #000 10%, transparent 75%);
+            -webkit-mask-image: radial-gradient(circle at 50% 45%, #000 10%, transparent 75%);
+        }
+
+        /* ========== 5. TYPEWRITER CURSOR ========== */
+        .typewriter-cursor::after {
+            content: '|';
+            color: var(--accent);
+            animation: blink 0.9s step-end infinite;
+            margin-left: 2px;
+            font-weight: 400;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ========== 6. 3D TILT + SPOTLIGHT + ROTATING BORDER CARDS ========== */
+        .product-card {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            will-change: transform;
+            transition: transform 0.25s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .product-card:hover {
+            border-color: rgba(255, 107, 53, 0.7);
+            box-shadow: 0 20px 50px rgba(255, 107, 53, 0.22);
+        }
+        /* Spotlight radial glow */
+        .product-card::before {
+            content: '';
+            position: absolute;
+            width: 340px; height: 340px;
+            left: var(--mx, 50%);
+            top: var(--my, 50%);
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.16), transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+        .product-card:hover::before { opacity: 1; }
+        .product-card .thumb-wrap {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16 / 10;
+            background: #12182f;
+        }
+        .product-card .thumb-svg {
+            width: 100%; height: 100%;
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+        }
+        .product-card:hover .thumb-svg {
+            transform: scale(1.08);
+        }
+
+        /* ========== 7. 3D FLIP CATEGORY CARDS ========== */
+        .flip-card {
+            perspective: 1000px;
+            height: 165px;
+            cursor: pointer;
+        }
+        .flip-inner {
+            position: relative;
+            width: 100%; height: 100%;
+            transition: transform 0.65s cubic-bezier(0.65, 0, 0.35, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+        }
+        .flip-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #ff6b35 0%, #e04e1a 55%, #9b59ff 100%);
+            border-color: #ff8456;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* ========== 8. LIQUID & RIPPLE BUTTONS ========== */
+        .btn-accent {
+            position: relative;
+            overflow: hidden;
+            background: var(--accent);
+            color: #fff;
+            transition: all 0.25s ease;
+            isolation: isolate;
+        }
+        .btn-accent::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #ff8456, #ff511a);
+            z-index: -1;
+            transform: translateY(102%);
+            transition: transform 0.35s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+        .btn-accent:hover::before { transform: translateY(0); }
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.45);
+        }
+        .btn-accent:active { transform: scale(0.97); }
+
+        .ripple-span {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.55);
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes rippleEffect {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* ========== 9. FLY TO CART & CART BOUNCE ========== */
+        .flying-clone {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.7);
+            border: 2px solid #ff6b35;
+            overflow: hidden;
+            transition: all 0.8s cubic-bezier(0.55, -0.3, 0.85, 0.9);
+        }
+        @keyframes badgePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.65); background: #2ecc71; }
+            100% { transform: scale(1); }
+        }
+        .badge-pop { animation: badgePop 0.5s ease; }
+
+        @keyframes cartBounce {
+            0%, 100% { transform: scale(1) rotate(0); }
+            25% { transform: scale(1.22) rotate(-10deg); }
+            75% { transform: scale(1.22) rotate(10deg); }
+        }
+        .cart-bounce { animation: cartBounce 0.5s ease; }
+
+        /* ========== 10. TOAST NOTIFICATIONS WITH PROGRESS ========== */
+        .toast-item {
+            position: relative;
+            overflow: hidden;
+            background: #16213e;
+            border: 1px solid #2a2a3e;
+            border-left: 4px solid var(--accent);
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: #fff;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+            animation: toastSlideIn 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+            min-width: 280px;
+            max-width: 360px;
+        }
+        .toast-item.success { border-left-color: var(--success); }
+        .toast-item.error { border-left-color: var(--danger); }
+        .toast-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 3px;
+            background: var(--accent);
+            width: 100%;
+            animation: toastBar 3.2s linear forwards;
+        }
+        .toast-item.success::after { background: var(--success); }
+        .toast-item.error::after { background: var(--danger); }
+        @keyframes toastSlideIn {
+            from { transform: translateX(120%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes toastBar {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        /* ========== 11. BALLOON POP & EMPTY BOUNCE ========== */
+        @keyframes balloonPop {
+            0% { transform: scale(1); opacity: 1; }
+            40% { transform: scale(1.08); opacity: 0.85; }
+            100% { transform: scale(0.4); opacity: 0; }
+        }
+        .popping { animation: balloonPop 0.35s cubic-bezier(0.7, 0, 0.3, 1) forwards; }
+
+        @keyframes emptyBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .empty-bounce { animation: emptyBounce 2.2s ease-in-out infinite; }
+
+        /* ========== 12. CURSOR TRAIL DOT ========== */
+        .cursor-dot {
+            position: fixed;
+            pointer-events: none;
+            width: 6px; height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            z-index: 9990;
+            transform: translate(-50%, -50%);
+            animation: dotFade 0.65s ease forwards;
+        }
+        @keyframes dotFade {
+            from { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
+            to { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+        }
+
+        /* ========== 13. MODAL POP & SHAKE ========== */
+        @keyframes modalPop {
+            from { transform: scale(0.88); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-animate { animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .shake { animation: shake 0.4s ease; border-color: var(--danger) !important; }
+
+        /* View Transition */
+        .spa-view {
+            animation: viewFade 0.4s ease;
+        }
+        @keyframes viewFade {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-accent selection:text-white">
+
+    <!-- 1. TOP SCROLL PROGRESS BAR -->
+    <div id="scrollProgress" class="scroll-progress"></div>
+
+    <!-- 2. TOP ANNOUNCEMENT MARQUEE TICKER -->
+    <div class="marquee-bar">
+        <div class="marquee-track">
+            <span>🎉 Welcome to Ilania Digital Marketplace — Built by Raj Gautam</span>
+            <span>⚡ Instant Token-Secured Downloads After Checkout</span>
+            <span>🔥 Use Promo Code <strong>ILANIA20</strong> for 20% OFF or <strong>SAVE10</strong> for 10% OFF!</span>
+            <span>🎨 Switch roles in the top bar (Buyer / Seller / Admin) to test the full SDD architecture live!</span>
+            <span>🎉 Welcome to Ilania Digital Marketplace — Built by Raj Gautam</span>
+            <span>⚡ Instant Token-Secured Downloads After Checkout</span>
+            <span>🔥 Use Promo Code <strong>ILANIA20</strong> for 20% OFF or <strong>SAVE10</strong> for 10% OFF!</span>
+            <span>🎨 Switch roles in the top bar (Buyer / Seller / Admin) to test the full SDD architecture live!</span>
+        </div>
+    </div>
+
+    <!-- 3. STICKY GLASSMORPHISM NAVBAR -->
+    <nav id="navbar" class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+            <!-- Brand Logo with Text Scramble -->
+            <a href="#home" onclick="navigateTo('home'); return false;" class="flex items-center gap-2.5 group focus:outline-none" id="logoLink">
+                <span class="w-9 h-9 rounded-xl bg-accent flex items-center justify-center text-white font-black text-lg shadow-lg shadow-accent/30 group-hover:rotate-12 transition-transform">▶</span>
+                <span id="logoText" class="text-xl font-extrabold tracking-tight text-white font-mono">Ilania</span>
+            </a>
+
+            <!-- Live Search Bar with Autocomplete Dropdown (Desktop) -->
+            <div class="hidden md:flex flex-1 max-w-md relative">
+                <div class="relative w-full">
+                    <input id="globalSearchInput" type="text" placeholder="Search UI kits, templates, Python courses..." 
+                        class="w-full pl-4 pr-10 py-2 bg-bgCard border border-borderDark rounded-xl text-sm text-textMain placeholder-textDim focus:outline-none focus:border-accent transition-all"
+                        autocomplete="off">
+                    <button onclick="triggerGlobalSearch()" class="absolute right-3 top-1/2 -translate-y-1/2 text-textDim hover:text-accent">
+                        🔍
+                    </button>
+                </div>
+                <!-- Live Autocomplete Results Dropdown -->
+                <div id="searchAutocomplete" class="hidden absolute top-full left-0 right-0 mt-2 bg-bgCard border border-borderDark rounded-xl shadow-2xl overflow-hidden z-50 max-h-80 overflow-y-auto"></div>
+            </div>
+
+            <!-- Navigation Links -->
+            <ul class="hidden lg:flex items-center gap-6 text-sm font-medium">
+                <li><a href="#home" onclick="navigateTo('home'); return false;" data-nav="home" class="nav-item text-accent font-semibold hover:text-accent transition-colors">Home</a></li>
+                <li><a href="#products" onclick="navigateTo('products'); return false;" data-nav="products" class="nav-item text-textMain hover:text-accent transition-colors">Explore</a></li>
+                <li><a href="#about" onclick="navigateTo('about'); return false;" data-nav="about" class="nav-item text-textMain hover:text-accent transition-colors flex items-center gap-1">👨‍💻 About Raj</a></li>
+                <li id="navRoleLinkContainer">
+                    <!-- Dynamic Role Link injected by JS -->
+                </li>
+            </ul>
+
+            <!-- Right Actions: Role Switcher, Wishlist, Cart, Profile -->
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <!-- Interactive Role Switcher Pill -->
+                <div class="relative flex items-center bg-bgCard border border-borderDark rounded-xl p-1 text-xs">
+                    <span class="hidden sm:inline-block px-2 text-textDim font-medium">Role:</span>
+                    <select id="roleSelector" onchange="switchUserRole(this.value)" class="bg-bgHover text-white font-semibold px-2.5 py-1.5 rounded-lg border border-borderDark focus:outline-none focus:border-accent cursor-pointer">
+                        <option value="buyer">👤 Buyer</option>
+                        <option value="seller">🏪 Seller (Arena)</option>
+                        <option value="admin">🛡️ Admin</option>
+                    </select>
+                </div>
+
+                <!-- Wishlist Button -->
+                <button onclick="openWishlistView()" class="relative p-2 rounded-xl bg-bgCard border border-borderDark hover:border-accent transition-colors" title="Wishlist">
+                    ❤️
+                    <span id="wishlistBadge" class="absolute -top-1.5 -right-1.5 bg-purpleAccent text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                </button>
+
+                <!-- Cart Icon Button -->
+                <button id="cartIconBtn" onclick="navigateTo('cart')" class="relative p-2 rounded-xl bg-bgCard border border-borderDark hover:border-accent transition-colors" title="Your Cart">
+                    🛒
+                    <span id="cartBadge" class="absolute -top-1.5 -right-1.5 bg-accent text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                </button>
+
+                <!-- Account Dashboard Button -->
+                <button onclick="navigateToRoleDashboard()" id="dashboardQuickBtn" class="btn-accent px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold shadow-md">
+                    My Account
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Bottom Nav Row -->
+        <div class="flex lg:hidden items-center justify-around border-t border-borderDark/60 mt-2.5 pt-2 px-3 text-xs font-medium text-textDim">
+            <button onclick="navigateTo('home')" class="hover:text-accent py-1">🏠 Home</button>
+            <button onclick="navigateTo('products')" class="hover:text-accent py-1">🛍️ Explore</button>
+            <button onclick="navigateTo('cart')" class="hover:text-accent py-1">🛒 Cart</button>
+            <button onclick="navigateToRoleDashboard()" class="hover:text-accent py-1">📊 Dashboard</button>
+            <button onclick="navigateTo('about')" class="hover:text-accent py-1">👨‍💻 Raj Gautam</button>
+        </div>
+    </nav>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed top-28 right-4 z-[3000] flex flex-col gap-2.5 pointer-events-none"></div>
+
+    <!-- CONFETTI CANVAS (FOR ORDER SUCCESS) -->
+    <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-[2500] hidden"></canvas>
+
+    <!-- ================================================================= -->
+    <!-- MAIN SPA VIEW CONTAINER                                           -->
+    <!-- ================================================================= -->
+    <main class="flex-1 pt-28 lg:pt-24">
+
+        <!-- ============================================================= -->
+        <!-- VIEW 1: HOME PAGE                                             -->
+        <!-- ============================================================= -->
+        <div id="view-home" class="spa-view">
+            
+            <!-- HERO SECTION -->
+            <section class="relative min-h-[84vh] flex items-center justify-center overflow-hidden py-16">
+                <div class="aurora-container">
+                    <div class="aurora-blob-1"></div>
+                    <div class="aurora-blob-2"></div>
+                </div>
+                <div class="ripple-grid"></div>
+                <canvas id="particleCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+                <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-bgCard/90 border border-borderDark text-xs font-medium text-textDim mb-6 shadow-inner">
+                        <span class="w-2 h-2 rounded-full bg-accent animate-ping"></span>
+                        <span>Next-Gen Digital Asset Ecosystem · Designed by <strong class="text-white">Raj Gautam</strong></span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.12] mb-6">
+                        <span id="typewriterText" class="typewriter-cursor">Better experience</span><br>
+                        for effective <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent via-orange-400 to-purpleAccent">websites</span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-textDim max-w-2xl mx-auto mb-9 leading-relaxed">
+                        Buy & sell ultra-crisp UI kits, production-ready templates, game graphic packs, and developer courses from verified creators worldwide.
+                    </p>
+
+                    <div class="flex flex-wrap items-center justify-center gap-4">
+                        <button onclick="navigateTo('products')" class="btn-accent px-8 py-4 rounded-xl font-bold text-base shadow-lg shadow-accent/25 flex items-center gap-2">
+                            <span>Explore Marketplace</span>
+                            <span>→</span>
+                        </button>
+                        <button onclick="switchUserRole('seller'); navigateTo('seller');" class="px-7 py-4 rounded-xl font-semibold text-base bg-bgCard/80 hover:bg-bgHover border border-borderDark hover:border-accent transition-all">
+                            🏪 Start Selling
+                        </button>
+                    </div>
+
+                    <!-- Odometer Animated Stats -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto mt-14 pt-8 border-t border-borderDark/70">
+                        <div class="p-3 rounded-xl bg-bgCard/40 border border-borderDark/50">
+                            <div class="text-2xl sm:text-3xl font-extrabold text-accent"><span class="odometer" data-target="10400">0</span>+</div>
+                            <div class="text-xs text-textDim mt-1">Digital Products</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-bgCard/40 border border-borderDark/50">
+                            <div class="text-2xl sm:text-3xl font-extrabold text-accent"><span class="odometer" data-target="2500">0</span>+</div>
+                            <div class="text-xs text-textDim mt-1">Verified Sellers</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-bgCard/40 border border-borderDark/50">
+                            <div class="text-2xl sm:text-3xl font-extrabold text-accent"><span class="odometer" data-target="52000">0</span>+</div>
+                            <div class="text-xs text-textDim mt-1">Happy Buyers</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-bgCard/40 border border-borderDark/50">
+                            <div class="text-2xl sm:text-3xl font-extrabold text-amber-400">4.9 ★</div>
+                            <div class="text-xs text-textDim mt-1">Average Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEATURED PRODUCTS SECTION -->
+            <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-accent">Handpicked Assets</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">Featured Digital Products</h2>
+                    </div>
+                    <button onclick="navigateTo('products')" class="text-sm font-semibold text-accent hover:underline flex items-center gap-1">
+                        View All Products (<span id="homeTotalCount">8</span>) →
+                    </button>
+                </div>
+
+                <!-- Product Grid -->
+                <div id="homeFeaturedGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+            </section>
+
+            <!-- BROWSE CATEGORIES (3D FLIP CARDS) -->
+            <section class="py-16 bg-bgCard/30 border-y border-borderDark/60">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-end justify-between mb-10">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-purpleAccent">Interactive 3D Cards</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">Browse Categories</h2>
+                        </div>
+                        <span class="text-xs text-textDim hidden sm:inline">Hover any card to flip ↻</span>
+                    </div>
+
+                    <div id="homeCategoryGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5"></div>
+                </div>
+            </section>
+
+            <!-- TOP SELLERS SECTION -->
+            <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-end justify-between mb-10">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-accent">Verified Creators</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">Top Marketplace Sellers</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div onclick="filterBySeller('Arena Studio')" class="cursor-pointer bg-bgCard border border-borderDark hover:border-accent p-6 rounded-2xl text-center transition-all hover:-translate-y-1.5">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent to-amber-500 flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg shadow-accent/20">🎨</div>
+                        <h4 class="font-bold text-lg flex items-center justify-center gap-1">Arena Studio <span class="text-sky-400 text-xs" title="Verified">✔</span></h4>
+                        <p class="text-xs text-textDim mt-1">UI Kits & Design Systems</p>
+                        <div class="mt-4 pt-3 border-t border-borderDark flex justify-around text-xs">
+                            <span>⭐ <strong>4.9</strong></span>
+                            <span>📦 <strong>1.2K</strong> Sales</span>
+                        </div>
+                    </div>
+                    <div onclick="filterBySeller('Nova Assets')" class="cursor-pointer bg-bgCard border border-borderDark hover:border-accent p-6 rounded-2xl text-center transition-all hover:-translate-y-1.5">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purpleAccent to-indigo-600 flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg shadow-purpleAccent/20">🖌️</div>
+                        <h4 class="font-bold text-lg flex items-center justify-center gap-1">Nova Assets <span class="text-sky-400 text-xs">✔</span></h4>
+                        <p class="text-xs text-textDim mt-1">Game DLCs & Typography</p>
+                        <div class="mt-4 pt-3 border-t border-borderDark flex justify-around text-xs">
+                            <span>⭐ <strong>4.8</strong></span>
+                            <span>📦 <strong>980</strong> Sales</span>
+                        </div>
+                    </div>
+                    <div onclick="filterBySeller('Ilania Team')" class="cursor-pointer bg-bgCard border border-borderDark hover:border-accent p-6 rounded-2xl text-center transition-all hover:-translate-y-1.5">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg shadow-emerald-500/20">⚡</div>
+                        <h4 class="font-bold text-lg flex items-center justify-center gap-1">Ilania Team <span class="text-sky-400 text-xs">✔</span></h4>
+                        <p class="text-xs text-textDim mt-1">Full-Stack Templates & Courses</p>
+                        <div class="mt-4 pt-3 border-t border-borderDark flex justify-around text-xs">
+                            <span>⭐ <strong>5.0</strong></span>
+                            <span>📦 <strong>2.5K</strong> Sales</span>
+                        </div>
+                    </div>
+                    <div onclick="filterBySeller('Pixel Forge')" class="cursor-pointer bg-bgCard border border-borderDark hover:border-accent p-6 rounded-2xl text-center transition-all hover:-translate-y-1.5">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg shadow-pink-500/20">🔥</div>
+                        <h4 class="font-bold text-lg flex items-center justify-center gap-1">Pixel Forge <span class="text-sky-400 text-xs">✔</span></h4>
+                        <p class="text-xs text-textDim mt-1">Vector Icons & 3D Renders</p>
+                        <div class="mt-4 pt-3 border-t border-borderDark flex justify-around text-xs">
+                            <span>⭐ <strong>4.7</strong></span>
+                            <span>📦 <strong>750</strong> Sales</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HOW IT WORKS -->
+            <section class="py-16 bg-bgCard/50 border-y border-borderDark">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent">Simple 3-Step Workflow</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mt-1 mb-12">How Ilania Marketplace Works</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="p-6 rounded-2xl bg-bgDark/70 border border-borderDark relative">
+                            <div class="w-14 h-14 rounded-2xl bg-accent text-white font-black text-xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-accent/30">1</div>
+                            <h3 class="font-bold text-lg mb-2">Browse & Filter</h3>
+                            <p class="text-sm text-textDim">Search live across Templates, UI Kits, Graphics, and Courses with instant price & rating filters.</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-bgDark/70 border border-borderDark relative">
+                            <div class="w-14 h-14 rounded-2xl bg-purpleAccent text-white font-black text-xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-purpleAccent/30">2</div>
+                            <h3 class="font-bold text-lg mb-2">Instant Dummy Checkout</h3>
+                            <p class="text-sm text-textDim">Add items to your cart, apply promo codes like <code class="text-accent">ILANIA20</code>, and complete the 3-step checkout.</p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-bgDark/70 border border-borderDark relative">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-500 text-white font-black text-xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-emerald-500/30">3</div>
+                            <h3 class="font-bold text-lg mb-2">Token-Secured Download</h3>
+                            <p class="text-sm text-textDim">Receive a unique cryptographic download token immediately after purchase and download your asset package.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TESTIMONIALS & CTA BANNER -->
+            <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-center mb-10">What Creators & Buyers Say</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                    <div class="bg-bgCard border border-borderDark p-6 rounded-2xl hover:border-accent transition-all">
+                        <div class="text-amber-400 text-sm mb-3">★★★★★</div>
+                        <p class="text-sm text-textDim italic mb-5">"Amazing quality! The Knight UI Kit saved me 40+ hours of Figma prototyping work. Smooth checkout and instant download."</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full bg-accent/20 text-accent flex items-center justify-center font-bold">R</div>
+                            <div class="text-xs"><strong class="text-white block">Rahul K.</strong>Verified Buyer</div>
+                        </div>
+                    </div>
+                    <div class="bg-bgCard border border-borderDark p-6 rounded-2xl hover:border-accent transition-all">
+                        <div class="text-amber-400 text-sm mb-3">★★★★★</div>
+                        <p class="text-sm text-textDim italic mb-5">"Best dark-themed marketplace UI! The 3D card tilt, fly-to-cart animation, and clean typography make browsing a joy."</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full bg-purpleAccent/20 text-purpleAccent flex items-center justify-center font-bold">P</div>
+                            <div class="text-xs"><strong class="text-white block">Priya S.</strong>Frontend Architect</div>
+                        </div>
+                    </div>
+                    <div class="bg-bgCard border border-borderDark p-6 rounded-2xl hover:border-accent transition-all">
+                        <div class="text-amber-400 text-sm mb-3">★★★★★</div>
+                        <p class="text-sm text-textDim italic mb-5">"As a creator, the Seller Dashboard lets me upload new kits and track revenue in real time. Super intuitive workflow!"</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">A</div>
+                            <div class="text-xs"><strong class="text-white block">Arena Studio</strong>Top Marketplace Seller</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Banner -->
+                <div class="rounded-3xl p-8 sm:p-12 text-center border border-accent/60 bg-gradient-to-r from-accent/20 via-bgCard to-purpleAccent/20 relative overflow-hidden">
+                    <h2 class="text-2xl sm:text-4xl font-extrabold mb-3">Ready to monetize your digital creations?</h2>
+                    <p class="text-textDim max-w-xl mx-auto mb-6 text-sm sm:text-base">Switch to the Seller role in one click, upload your digital product, and test the live Admin approval workflow.</p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button onclick="switchUserRole('seller'); navigateTo('seller');" class="btn-accent px-7 py-3.5 rounded-xl font-bold text-sm">🏪 Open Seller Dashboard →</button>
+                        <button onclick="navigateTo('about')" class="px-6 py-3.5 rounded-xl font-semibold text-sm bg-bgDark border border-borderDark hover:border-accent">Meet Creator Raj Gautam</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- VIEW 2: EXPLORE PRODUCTS (/products)                          -->
+        <!-- ============================================================= -->
+        <div id="view-products" class="spa-view hidden py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Breadcrumb -->
+            <div class="text-xs text-textDim mb-6 flex items-center gap-2">
+                <button onclick="navigateTo('home')" class="hover:text-accent">Home</button>
+                <span>/</span>
+                <span class="text-white font-semibold">Explore Digital Products</span>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- LEFT SIDEBAR FILTERS -->
+                <aside class="w-full lg:w-64 shrink-0 space-y-6">
+                    <div class="bg-bgCard border border-borderDark rounded-2xl p-5 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-base">🎛️ Filters</h3>
+                            <button onclick="resetProductFilters()" class="text-xs text-accent hover:underline">Reset All</button>
+                        </div>
+
+                        <!-- Keyword Filter -->
+                        <div>
+                            <label class="block text-xs text-textDim mb-2 font-medium">Search Keyword</label>
+                            <input id="exploreSearchInput" oninput="renderExploreProducts()" type="text" placeholder="e.g. Knight, Python..." 
+                                class="w-full px-3.5 py-2 bg-bgDark border border-borderDark rounded-xl text-sm focus:outline-none focus:border-accent">
+                        </div>
+
+                        <!-- Category Filter Pills -->
+                        <div>
+                            <label class="block text-xs text-textDim mb-2.5 font-medium">Category</label>
+                            <div id="categoryFilterList" class="space-y-1.5 text-sm"></div>
+                        </div>
+
+                        <!-- Max Price Range Slider -->
+                        <div>
+                            <div class="flex justify-between text-xs mb-2">
+                                <span class="text-textDim font-medium">Max Price</span>
+                                <span id="priceSliderLabel" class="text-accent font-bold">₹5,000</span>
+                            </div>
+                            <input id="priceRangeSlider" type="range" min="500" max="5000" step="100" value="5000" oninput="updatePriceSlider(this.value)"
+                                class="w-full accent-accent cursor-pointer">
+                            <div class="flex justify-between text-[11px] text-textDim mt-1">
+                                <span>₹500</span>
+                                <span>₹5,000</span>
+                            </div>
+                        </div>
+
+                        <!-- Minimum Rating -->
+                        <div>
+                            <label class="block text-xs text-textDim mb-2 font-medium">Minimum Rating</label>
+                            <select id="ratingFilterSelect" onchange="renderExploreProducts()" class="w-full px-3 py-2 bg-bgDark border border-borderDark rounded-xl text-sm focus:outline-none focus:border-accent">
+                                <option value="0">All Ratings</option>
+                                <option value="4.8">⭐ 4.8 & up</option>
+                                <option value="4.5">⭐ 4.5 & up</option>
+                                <option value="4.0">⭐ 4.0 & up</option>
+                            </select>
+                        </div>
+
+                        <!-- Wishlist Only Toggle -->
+                        <label class="flex items-center justify-between pt-3 border-t border-borderDark cursor-pointer text-sm">
+                            <span>❤️ Wishlist Only</span>
+                            <input id="wishlistOnlyToggle" type="checkbox" onchange="renderExploreProducts()" class="w-4 h-4 accent-accent rounded">
+                        </label>
+                    </div>
+                </aside>
+
+                <!-- RIGHT PRODUCT CATALOG GRID -->
+                <div class="flex-1">
+                    <!-- Top Sort & Result Bar -->
+                    <div class="bg-bgCard border border-borderDark rounded-2xl p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
+                        <div class="text-sm">
+                            Showing <strong id="exploreResultCount" class="text-accent">0</strong> approved products
+                            <span id="activeSellerFilterBadge" class="hidden ml-2 px-2.5 py-1 rounded-full bg-accent/20 text-accent text-xs font-semibold"></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <label class="text-xs text-textDim">Sort by:</label>
+                            <select id="sortOrderSelect" onchange="renderExploreProducts()" class="px-3.5 py-2 bg-bgDark border border-borderDark rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:border-accent">
+                                <option value="featured">🔥 Featured</option>
+                                <option value="price-asc">💰 Price: Low to High</option>
+                                <option value="price-desc">💎 Price: High to Low</option>
+                                <option value="rating-desc">⭐ Highest Rated</option>
+                                <option value="newest">🆕 Newest Added</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Grid -->
+                    <div id="exploreProductGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+
+                    <!-- Empty State (With Bounce Animation) -->
+                    <div id="exploreEmptyState" class="hidden text-center py-20 bg-bgCard/40 border border-borderDark rounded-2xl">
+                        <div class="text-6xl empty-bounce inline-block mb-4">🔍</div>
+                        <h3 class="text-xl font-bold mb-2">No digital products matched your filter</h3>
+                        <p class="text-sm text-textDim max-w-md mx-auto mb-6">Try clearing your search keyword, raising the maximum price slider, or switching categories.</p>
+                        <button onclick="resetProductFilters()" class="btn-accent px-6 py-2.5 rounded-xl text-sm font-semibold">Reset Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- VIEW 3: CART & 3-STEP CHECKOUT WIZARD                         -->
+        <!-- ============================================================= -->
+        <div id="view-cart" class="spa-view hidden py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-xs text-textDim mb-6 flex items-center gap-2">
+                <button onclick="navigateTo('home')" class="hover:text-accent">Home</button>
+                <span>/</span>
+                <span class="text-white font-semibold">Shopping Cart & Checkout</span>
+            </div>
+
+            <!-- Step Progress Indicator -->
+            <div class="grid grid-cols-3 gap-3 max-w-2xl mx-auto mb-10">
+                <div id="stepIndicator1" class="p-3 rounded-xl border border-accent bg-accent/15 text-center">
+                    <div class="text-xs font-bold text-accent">STEP 1</div>
+                    <div class="text-xs sm:text-sm font-semibold mt-0.5">🛒 Review Cart</div>
+                </div>
+                <div id="stepIndicator2" class="p-3 rounded-xl border border-borderDark bg-bgCard text-center opacity-60">
+                    <div class="text-xs font-bold text-textDim">STEP 2</div>
+                    <div class="text-xs sm:text-sm font-semibold mt-0.5">💳 Billing & Pay</div>
+                </div>
+                <div id="stepIndicator3" class="p-3 rounded-xl border border-borderDark bg-bgCard text-center opacity-60">
+                    <div class="text-xs font-bold text-textDim">STEP 3</div>
+                    <div class="text-xs sm:text-sm font-semibold mt-0.5">⬇️ Instant Download</div>
+                </div>
+            </div>
+
+            <!-- STEP 1: CART ITEMS + SUMMARY -->
+            <div id="checkoutStep1">
+                <div id="cartContentWrap" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Cart Items List -->
+                    <div id="cartItemsContainer" class="lg:col-span-2 space-y-4"></div>
+
+                    <!-- Order Summary Box -->
+                    <div class="bg-bgCard border border-borderDark rounded-2xl p-6 h-fit sticky top-28">
+                        <h3 class="text-lg font-bold mb-4 pb-3 border-b border-borderDark">🧾 Order Summary</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between text-textDim">
+                                <span>Subtotal (<span id="summaryItemCount">0</span> items)</span>
+                                <span id="summarySubtotal" class="text-white font-medium">₹0</span>
+                            </div>
+                            <div id="summaryDiscountRow" class="hidden flex justify-between text-emerald-400">
+                                <span>Promo Discount (<span id="summaryCouponCode"></span>)</span>
+                                <span id="summaryDiscountAmt">-₹0</span>
+                            </div>
+                            <div class="flex justify-between text-textDim">
+                                <span>GST / Platform Tax (10%)</span>
+                                <span id="summaryTax" class="text-white font-medium">₹0</span>
+                            </div>
+                            <div class="border-t border-borderDark pt-3 flex justify-between text-lg font-extrabold">
+                                <span>Total Payable</span>
+                                <span id="summaryTotal" class="text-accent">₹0</span>
+                            </div>
+                        </div>
+
+                        <!-- Coupon Input -->
+                        <div class="mt-6 pt-5 border-t border-borderDark">
+                            <label class="block text-xs text-textDim mb-2">Have a Promo Code? Try <code class="text-accent font-bold">ILANIA20</code> or <code class="text-accent font-bold">SAVE10</code></label>
+                            <div class="flex gap-2">
+                                <input id="couponInput" type="text" placeholder="Enter code..." class="flex-1 px-3.5 py-2 bg-bgDark border border-borderDark rounded-xl text-sm uppercase focus:outline-none focus:border-accent">
+                                <button onclick="applyCouponCode()" class="px-4 py-2 rounded-xl bg-bgHover hover:bg-accent text-white text-xs font-bold transition-colors">Apply</button>
+                            </div>
+                        </div>
+
+                        <button onclick="goToCheckoutStep(2)" class="btn-accent w-full py-3.5 rounded-xl font-bold text-sm mt-6 shadow-lg">
+                            Proceed to Checkout →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Empty Cart State -->
+                <div id="cartEmptyState" class="hidden text-center py-20 bg-bgCard/50 border border-borderDark rounded-2xl">
+                    <div class="text-6xl empty-bounce inline-block mb-4">🛒</div>
+                    <h3 class="text-2xl font-bold mb-2">Your cart is currently empty</h3>
+                    <p class="text-sm text-textDim mb-6">Explore our premium UI kits, templates, and graphic packs to get started.</p>
+                    <button onclick="navigateTo('products')" class="btn-accent px-7 py-3 rounded-xl font-bold text-sm">Explore Products →</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: BILLING & DUMMY PAYMENT GATEWAY -->
+            <div id="checkoutStep2" class="hidden max-w-2xl mx-auto bg-bgCard border border-borderDark rounded-2xl p-6 sm:p-8">
+                <div class="flex items-center justify-between mb-6 pb-4 border-b border-borderDark">
+                    <h3 class="text-xl font-extrabold">💳 Complete Your Order (Simulated Gateway)</h3>
+                    <button onclick="goToCheckoutStep(1)" class="text-xs text-accent hover:underline">← Back to Cart</button>
+                </div>
+
+                <form onsubmit="processDummyPayment(event)" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-textDim mb-1.5">Full Name *</label>
+                            <input type="text" required value="Raj Gautam" class="w-full px-3.5 py-2.5 bg-bgDark border border-borderDark rounded-xl text-sm focus:border-accent focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-textDim mb-1.5">Delivery Email (For Receipt & Token) *</label>
+                            <input type="email" required value="buyer@ilania.dev" class="w-full px-3.5 py-2.5 bg-bgDark border border-borderDark rounded-xl text-sm focus:border-accent focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Payment Method Selector -->
+                    <div>
+                        <label class="block text-xs text-textDim mb-2">Payment Method</label>
+                        <div class="grid grid-cols-3 gap-3 text-xs font-semibold">
+                            <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-accent bg-accent/10 cursor-pointer">
+                                <input type="radio" name="payMethod" value="Card" checked class="accent-accent"> 💳 Credit/Debit
+                            </label>
+                            <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-borderDark bg-bgDark cursor-pointer">
+                                <input type="radio" name="payMethod" value="UPI" class="accent-accent"> 📱 Instant UPI
+                            </label>
+                            <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-borderDark bg-bgDark cursor-pointer">
+                                <input type="radio" name="payMethod" value="Wallet" class="accent-accent"> 👛 Dev Wallet
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-bgDark border border-borderDark space-y-4">
+                        <div class="flex justify-between items-center text-xs text-textDim">
+                            <span>🔒 256-Bit Encrypted Sandbox Mode</span>
+                            <span class="text-emerald-400 font-semibold">Pre-filled Test Card</span>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-textDim mb-1">Card Number</label>
+                            <input type="text" required value="4242 •••• •••• 4242" class="w-full px-3.5 py-2 bg-bgCard border border-borderDark rounded-lg text-sm font-mono">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-textDim mb-1">Expiry Date</label>
+                                <input type="text" required value="12 / 28" class="w-full px-3.5 py-2 bg-bgCard border border-borderDark rounded-lg text-sm font-mono">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-textDim mb-1">CVV</label>
+                                <input type="password" required value="999" class="w-full px-3.5 py-2 bg-bgCard border border-borderDark rounded-lg text-sm font-mono">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-4 border-t border-borderDark">
+                        <div>
+                            <span class="text-xs text-textDim block">Total Amount</span>
+                            <span id="checkoutPayBtnTotal" class="text-2xl font-extrabold text-accent">₹0</span>
+                        </div>
+                        <button id="paySubmitBtn" type="submit" class="btn-accent px-8 py-4 rounded-xl font-bold text-base shadow-lg">
+                            ⚡ Pay & Generate Download Tokens
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- STEP 3: ORDER SUCCESS + TOKEN DOWNLOADS -->
+            <div id="checkoutStep3" class="hidden max-w-2xl mx-auto bg-bgCard border border-emerald-500/50 rounded-2xl p-8 text-center">
+                <div class="w-20 h-20 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-4xl mx-auto mb-4">🎉</div>
+                <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold">PAYMENT VERIFIED · STATUS: PAID</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold mt-3 mb-2">Order Placed Successfully!</h2>
+                <p id="successOrderMeta" class="text-sm text-textDim mb-6">Order #1024 · Receipt sent to buyer@ilania.dev</p>
+
+                <div class="bg-bgDark border border-borderDark rounded-xl p-5 text-left mb-6">
+                    <h4 class="text-sm font-bold mb-3 flex items-center justify-between">
+                        <span>⬇️ Your Token-Secured Digital Downloads</span>
+                        <span class="text-[11px] text-emerald-400 font-mono">TOKEN VERIFIED</span>
+                    </h4>
+                    <div id="successDownloadList" class="space-y-2.5"></div>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="navigateTo('buyer')" class="px-6 py-3 rounded-xl bg-bgHover hover:bg-accent text-white font-semibold text-sm transition-colors">
+                        📋 View My Orders & Downloads
+                    </button>
+                    <button onclick="navigateTo('products')" class="px-6 py-3 rounded-xl border border-borderDark hover:border-accent text-sm font-semibold">
+                        Continue Shopping →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- VIEW 4: BUYER DASHBOARD (ORDERS, DOWNLOADS, WISHLIST)         -->
+        <!-- ============================================================= -->
+        <div id="view-buyer" class="spa-view hidden py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent">Buyer Account Portal</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">👤 Welcome, Buyer</h2>
+                </div>
+                <button onclick="navigateTo('products')" class="btn-accent px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold">+ Browse More Assets</button>
+            </div>
+
+            <!-- Buyer Sections Grid -->
+            <div class="space-y-8">
+                <!-- Secure Downloads -->
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-6">
+                    <h3 class="text-lg font-bold mb-4">⬇️ My Purchased Downloads (Token Verified)</h3>
+                    <div id="buyerDownloadsContainer" class="space-y-3"></div>
+                </div>
+
+                <!-- Order History -->
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-6">
+                    <h3 class="text-lg font-bold mb-4">📋 Order History</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="border-b border-borderDark text-textDim text-xs uppercase">
+                                    <th class="py-3 px-4">Order ID</th>
+                                    <th class="py-3 px-4">Date</th>
+                                    <th class="py-3 px-4">Items</th>
+                                    <th class="py-3 px-4">Total</th>
+                                    <th class="py-3 px-4">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="buyerOrdersTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- VIEW 5: SELLER DASHBOARD (/seller)                            -->
+        <!-- ============================================================= -->
+        <div id="view-seller" class="spa-view hidden py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent">Creator Studio · Process 6.0 DFD</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">🏪 Seller Dashboard (Arena Studio)</h2>
+                </div>
+                <button onclick="openAddProductModal()" class="btn-accent px-5 py-3 rounded-xl text-sm font-bold shadow-lg flex items-center gap-2">
+                    <span>➕ Upload New Digital Product</span>
+                </button>
+            </div>
+
+            <!-- Seller Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-6">
+                    <span class="text-xs text-textDim">Listed Products</span>
+                    <div id="sellerStatProducts" class="text-3xl font-extrabold text-accent mt-1">0</div>
+                    <span class="text-xs text-emerald-400 mt-1 block">Active in catalog</span>
+                </div>
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-6">
+                    <span class="text-xs text-textDim">Total Unit Sales</span>
+                    <div id="sellerStatSales" class="text-3xl font-extrabold text-purpleAccent mt-1">48</div>
+                    <span class="text-xs text-textDim mt-1 block">+12% this week</span>
+                </div>
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-6">
+                    <span class="text-xs text-textDim">Total Creator Earnings</span>
+                    <div id="sellerStatRevenue" class="text-3xl font-extrabold text-emerald-400 mt-1">₹98,400</div>
+                    <span class="text-xs text-textDim mt-1 block">Instant payout ready</span>
+                </div>
+            </div>
+
+            <!-- Seller Products Table -->
+            <div class="bg-bgCard border border-borderDark rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold">📦 My Uploaded Products</h3>
+                    <span class="text-xs text-textDim">New uploads start as <code class="text-amber-400">pending</code> until Admin approves</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b border-borderDark text-textDim text-xs uppercase">
+                                <th class="py-3 px-4">Product</th>
+                                <th class="py-3 px-4">Category</th>
+                                <th class="py-3 px-4">Price</th>
+                                <th class="py-3 px-4">Status</th>
+                                <th class="py-3 px-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sellerProductsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- VIEW 6: ADMIN PANEL (/admin-panel)                            -->
+        <!-- ============================================================= -->
+        <div id="view-admin" class="spa-view hidden py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-purpleAccent">System Governance · Process 7.0 DFD</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">🛡️ Admin Control Panel</h2>
+                </div>
+                <button onclick="openAddProductModal()" class="px-4 py-2.5 rounded-xl bg-bgCard border border-borderDark hover:border-accent text-xs font-semibold">
+                    + Simulate Seller Upload
+                </button>
+            </div>
+
+            <!-- Admin Stats -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-5">
+                    <span class="text-xs text-textDim">Total Platform Users</span>
+                    <div class="text-2xl font-extrabold text-white mt-1">1,254</div>
+                </div>
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-5">
+                    <span class="text-xs text-textDim">Total Catalog Products</span>
+                    <div id="adminStatTotalProducts" class="text-2xl font-extrabold text-accent mt-1">0</div>
+                </div>
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-5">
+                    <span class="text-xs text-textDim">Pending Approvals</span>
+                    <div id="adminStatPending" class="text-2xl font-extrabold text-amber-400 mt-1">0</div>
+                </div>
+                <div class="bg-bgCard border border-borderDark rounded-2xl p-5">
+                    <span class="text-xs text-textDim">Platform Gross Volume</span>
+                    <div id="adminStatGMV" class="text-2xl font-extrabold text-emerald-400 mt-1">₹4,52,000</div>
+                </div>
+            </div>
+
+            <!-- Pending Approvals Queue -->
+            <div class="bg-bgCard border border-borderDark rounded-2xl p-6 mb-8">
+                <h3 class="text-lg font-bold mb-4">⏳ Pending Product Approvals</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b border-borderDark text-textDim text-xs uppercase">
+                                <th class="py-3 px-4">Title</th>
+                                <th class="py-3 px-4">Seller</th>
+                                <th class="py-3 px-4">Category</th>
+                                <th class="py-3 px-4">Price</th>
+                                <th class="py-3 px-4">Status</th>
+                                <th class="py-3 px-4 text-right">Decision</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminApprovalTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================= -->
+        <!-- VIEW 7: ABOUT CREATOR PAGE — RAJ GAUTAM (/about)              -->
+        <!-- ============================================================= -->
+        <div id="view-about" class="spa-view hidden py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Creator Hero Card -->
+            <div class="text-center mb-14 bg-bgCard/60 border border-borderDark rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+                <div class="w-32 h-32 rounded-full bg-gradient-to-tr from-accent via-amber-400 to-purpleAccent mx-auto mb-6 flex items-center justify-center text-6xl shadow-2xl shadow-accent/40 border-4 border-bgDark">
+                    👨‍💻
+                </div>
+                <span class="px-3.5 py-1 rounded-full bg-accent/15 text-accent text-xs font-bold uppercase tracking-wider">Creator & Architect</span>
+                <h1 class="text-3xl sm:text-5xl font-extrabold mt-3 mb-3">
+                    Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-amber-400">Raj Gautam</span>
+                </h1>
+                <p class="text-base sm:text-lg text-textDim max-w-xl mx-auto">
+                    Full-Stack Developer & Creator of <strong class="text-white">Ilania Digital Marketplace</strong>
+                </p>
+
+                <div class="flex flex-wrap justify-center gap-3.5 mt-7">
+                    <a href="https://github.com/Rg100152" target="_blank" rel="noopener noreferrer" class="btn-accent px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2">
+                        <span>🐙 GitHub (@Rg100152)</span>
+                    </a>
+                    <a href="mailto:raj@ilania.dev" class="px-6 py-3 rounded-xl bg-bgDark border border-borderDark hover:border-accent text-sm font-semibold transition-colors">
+                        📧 Contact Me
+                    </a>
+                    <button onclick="navigateTo('products')" class="px-6 py-3 rounded-xl bg-bgHover hover:bg-purpleAccent/30 border border-borderDark text-sm font-semibold transition-colors">
+                        🛍️ Explore My Marketplace
+                    </button>
+                </div>
+            </div>
+
+            <!-- My Story -->
+            <div class="bg-bgCard border border-borderDark rounded-2xl p-7 sm:p-9 mb-8">
+                <h2 class="text-xl sm:text-2xl font-extrabold mb-4">📖 My Story</h2>
+                <div class="space-y-4 text-textDim leading-relaxed text-sm sm:text-base">
+                    <p>
+                        I'm <strong class="text-white">Raj Gautam</strong>, a passionate Full-Stack Developer with a love for building clean, functional, and high-performance web applications.
+                    </p>
+                    <p>
+                        <strong class="text-accent">Ilania Marketplace</strong> is my brainchild — a complete digital asset ecosystem where creators can sell their digital products (templates, UI kits, graphics, courses) and buyers can discover quality assets effortlessly.
+                    </p>
+                    <p>
+                        I believe in <em>simplicity, speed, and micro-interaction polish</em>. Every pixel, every 3D animation, and every database flow in this marketplace reflects that engineering philosophy.
+                    </p>
+                </div>
+            </div>
+
+            <!-- What I Built (6 Feature Cards) -->
+            <div class="bg-bgCard border border-borderDark rounded-2xl p-7 sm:p-9 mb-8">
+                <h2 class="text-xl sm:text-2xl font-extrabold mb-6">🛠️ What I Built in Ilania</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-bgDark p-5 rounded-xl border-l-4 border-accent">
+                        <h4 class="font-bold text-base mb-1">🔐 Role-Based Auth</h4>
+                        <p class="text-xs text-textDim">Seamless switching between Buyer, Seller, and Admin workflows.</p>
+                    </div>
+                    <div class="bg-bgDark p-5 rounded-xl border-l-4 border-accent">
+                        <h4 class="font-bold text-base mb-1">🛒 Cart & 3-Step Checkout</h4>
+                        <p class="text-xs text-textDim">Live coupon codes, GST calculation, and simulated payment gateway.</p>
+                    </div>
+                    <div class="bg-bgDark p-5 rounded-xl border-l-4 border-accent">
+                        <h4 class="font-bold text-base mb-1">🏪 Seller Studio</h4>
+                        <p class="text-xs text-textDim">Instant product creation, custom pricing, and real-time revenue metrics.</p>
+                    </div>
+                    <div class="bg-bgDark p-5 rounded-xl border-l-4 border-purpleAccent">
+                        <h4 class="font-bold text-base mb-1">🛡️ Admin Governance</h4>
+                        <p class="text-xs text-textDim">One-click product approval/rejection queue synced with the live catalog.</p>
+                    </div>
+                    <div class="bg-bgDark p-5 rounded-xl border-l-4 border-purpleAccent">
+                        <h4 class="font-bold text-base mb-1">🎬 20+ Micro-Animations</h4>
+                        <p class="text-xs text-textDim">3D tilt cards, fly-to-cart, confetti blast, aurora waves & particles.</p>
+                    </div>
+                    <div class="bg-bgDark p-5 rounded-xl border-l-4 border-purpleAccent">
+                        <h4 class="font-bold text-base mb-1">⚡ SDD + DFD Compliant</h4>
+                        <p class="text-xs text-textDim">Engineered from a complete Software Design Document & ER schema.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Stack Pills -->
+            <div class="bg-bgCard border border-borderDark rounded-2xl p-7 sm:p-9 mb-8">
+                <h2 class="text-xl sm:text-2xl font-extrabold mb-5">💻 Tech Stack I Use</h2>
+                <div class="flex flex-wrap gap-2.5">
+                    <span class="px-4 py-2 rounded-full bg-accent/15 text-accent text-xs sm:text-sm font-bold">Python</span>
+                    <span class="px-4 py-2 rounded-full bg-accent/15 text-accent text-xs sm:text-sm font-bold">Flask</span>
+                    <span class="px-4 py-2 rounded-full bg-accent/15 text-accent text-xs sm:text-sm font-bold">Django 4.x</span>
+                    <span class="px-4 py-2 rounded-full bg-accent/15 text-accent text-xs sm:text-sm font-bold">SQLAlchemy</span>
+                    <span class="px-4 py-2 rounded-full bg-purpleAccent/15 text-purpleAccent text-xs sm:text-sm font-bold">HTML5</span>
+                    <span class="px-4 py-2 rounded-full bg-purpleAccent/15 text-purpleAccent text-xs sm:text-sm font-bold">CSS3 / Tailwind</span>
+                    <span class="px-4 py-2 rounded-full bg-purpleAccent/15 text-purpleAccent text-xs sm:text-sm font-bold">JavaScript (ES6+)</span>
+                    <span class="px-4 py-2 rounded-full bg-emerald-500/15 text-emerald-400 text-xs sm:text-sm font-bold">SQLite / PostgreSQL</span>
+                    <span class="px-4 py-2 rounded-full bg-emerald-500/15 text-emerald-400 text-xs sm:text-sm font-bold">Jinja2</span>
+                    <span class="px-4 py-2 rounded-full bg-emerald-500/15 text-emerald-400 text-xs sm:text-sm font-bold">Git & GitHub</span>
+                </div>
+            </div>
+
+            <!-- Developer Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+                <div class="bg-bgCard border border-borderDark p-6 rounded-2xl text-center">
+                    <div class="text-3xl font-extrabold text-accent">20+</div>
+                    <div class="text-xs text-textDim mt-1">Projects Built</div>
+                </div>
+                <div class="bg-bgCard border border-borderDark p-6 rounded-2xl text-center">
+                    <div class="text-3xl font-extrabold text-purpleAccent">3+</div>
+                    <div class="text-xs text-textDim mt-1">Years Coding</div>
+                </div>
+                <div class="bg-bgCard border border-borderDark p-6 rounded-2xl text-center">
+                    <div class="text-3xl font-extrabold text-amber-400">∞</div>
+                    <div class="text-xs text-textDim mt-1">Cups of Coffee ☕</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ================================================================= -->
+    <!-- PRODUCT DETAIL + REVIEWS MODAL                                    -->
+    <!-- ================================================================= -->
+    <div id="productDetailModal" class="fixed inset-0 z-[2200] hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-md overflow-y-auto">
+        <div class="bg-bgCard border border-borderDark rounded-3xl max-w-4xl w-full p-6 sm:p-8 modal-animate my-8 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center pb-4 mb-6 border-b border-borderDark">
+                <div id="modalBreadcrumb" class="text-xs text-textDim">Marketplace / Product Detail</div>
+                <button onclick="closeProductModal()" class="w-9 h-9 rounded-full bg-bgDark hover:bg-accent text-white flex items-center justify-center font-bold">✕</button>
+            </div>
+
+            <div id="productModalBody"></div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- ADD NEW PRODUCT MODAL (SELLER)                                    -->
+    <!-- ================================================================= -->
+    <div id="addProductModal" class="fixed inset-0 z-[2200] hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+        <div class="bg-bgCard border border-borderDark rounded-3xl max-w-lg w-full p-6 sm:p-8 modal-animate">
+            <div class="flex justify-between items-center pb-3 mb-5 border-b border-borderDark">
+                <h3 class="text-lg font-extrabold">➕ Upload New Digital Product</h3>
+                <button onclick="closeAddProductModal()" class="w-8 h-8 rounded-full bg-bgDark hover:bg-accent text-white flex items-center justify-center">✕</button>
+            </div>
+
+            <form onsubmit="submitNewSellerProduct(event)" class="space-y-4 text-sm">
+                <div>
+                    <label class="block text-xs text-textDim mb-1">Product Title *</label>
+                    <input id="newProdTitle" type="text" required placeholder="e.g. Glassmorphism Dashboard Kit" class="w-full px-3.5 py-2.5 bg-bgDark border border-borderDark rounded-xl focus:border-accent focus:outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-textDim mb-1">Category *</label>
+                        <select id="newProdCategory" class="w-full px-3.5 py-2.5 bg-bgDark border border-borderDark rounded-xl focus:border-accent focus:outline-none">
+                            <option value="UI Kits">UI Kits</option>
+                            <option value="Templates">Templates</option>
+                            <option value="Graphics">Graphics</option>
+                            <option value="Courses">Courses</option>
+                            <option value="Fonts">Fonts</option>
+                            <option value="Icons">Icons</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-textDim mb-1">Price (₹ INR) *</label>
+                        <input id="newProdPrice" type="number" min="99" max="20000" required value="1499" class="w-full px-3.5 py-2.5 bg-bgDark border border-borderDark rounded-xl focus:border-accent focus:outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs text-textDim mb-1">Description *</label>
+                    <textarea id="newProdDesc" rows="3" required placeholder="Describe included files, Figma components, license..." class="w-full px-3.5 py-2.5 bg-bgDark border border-borderDark rounded-xl focus:border-accent focus:outline-none"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs text-textDim mb-1">Initial Approval Status</label>
+                    <select id="newProdStatus" class="w-full px-3.5 py-2 bg-bgDark border border-borderDark rounded-xl text-xs">
+                        <option value="pending">⏳ Pending Admin Approval (Realistic SDD Flow)</option>
+                        <option value="approved">✅ Approved Immediately (Instant Live Listing)</option>
+                    </select>
+                </div>
+                <div class="pt-3 flex justify-end gap-3">
+                    <button type="button" onclick="closeAddProductModal()" class="px-4 py-2.5 rounded-xl border border-borderDark text-xs font-semibold">Cancel</button>
+                    <button type="submit" class="btn-accent px-6 py-2.5 rounded-xl text-xs font-bold">🚀 Publish Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- FOOTER                                                            -->
+    <!-- ================================================================= -->
+    <footer class="bg-bgCard border-t border-borderDark mt-20 pt-14 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                <div>
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <span class="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-white font-bold">▶</span>
+                        <span class="text-xl font-extrabold">Ilania</span>
+                    </div>
+                    <p class="text-xs text-textDim leading-relaxed mb-4">
+                        Better experience for effective websites. Premium digital marketplace engineered by <strong class="text-white">Raj Gautam</strong>.
+                    </p>
+                    <div class="flex gap-2.5">
+                        <a href="https://github.com/Rg100152" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-bgHover hover:bg-accent flex items-center justify-center text-sm transition-colors" title="GitHub">🐙</a>
+                        <button onclick="navigateTo('about')" class="w-9 h-9 rounded-lg bg-bgHover hover:bg-accent flex items-center justify-center text-sm transition-colors" title="About Creator">👨‍💻</button>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-sm mb-4">Marketplace</h4>
+                    <ul class="space-y-2.5 text-xs text-textDim">
+                        <li><button onclick="navigateTo('products')" class="hover:text-accent">All Digital Products</button></li>
+                        <li><button onclick="filterByCategory('UI Kits')" class="hover:text-accent">UI Kits & Design Systems</button></li>
+                        <li><button onclick="filterByCategory('Templates')" class="hover:text-accent">Website Templates</button></li>
+                        <li><button onclick="filterByCategory('Courses')" class="hover:text-accent">Developer Courses</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-sm mb-4">Role Dashboards (Demo)</h4>
+                    <ul class="space-y-2.5 text-xs text-textDim">
+                        <li><button onclick="switchUserRole('buyer'); navigateTo('buyer');" class="hover:text-accent">👤 Buyer Orders & Downloads</button></li>
+                        <li><button onclick="switchUserRole('seller'); navigateTo('seller');" class="hover:text-accent">🏪 Seller Studio Dashboard</button></li>
+                        <li><button onclick="switchUserRole('admin'); navigateTo('admin');" class="hover:text-accent">🛡️ Admin Approval Queue</button></li>
+                        <li><button onclick="navigateTo('about')" class="hover:text-accent">📖 About Raj Gautam</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-sm mb-4">Newsletter</h4>
+                    <p class="text-xs text-textDim mb-3">Get notified about free UI kits and discount codes.</p>
+                    <form onsubmit="event.preventDefault(); showToast('📧 Subscribed to Ilania updates!', 'success'); this.reset();" class="flex">
+                        <input type="email" required placeholder="your@email.com" class="flex-1 px-3.5 py-2.5 bg-bgDark border border-borderDark rounded-l-xl text-xs focus:outline-none focus:border-accent">
+                        <button type="submit" class="bg-accent hover:bg-accentHover text-white px-4 rounded-r-xl font-bold text-sm">→</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-borderDark pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-textDim gap-4">
+                <p>© 2026 Ilania Digital Marketplace. Crafted with ❤️ by <button onclick="navigateTo('about')" class="text-accent font-semibold hover:underline">Raj Gautam</button>.</p>
+                <div class="flex gap-5">
+                    <span>SDD v2.0 Compliant</span>
+                    <span>·</span>
+                    <span>20+ Interactive Animations</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================================================================= -->
+    <!-- APPLICATION JAVASCRIPT (STATE, RENDERERS, 20+ ANIMATIONS)         -->
+    <!-- ================================================================= -->
+    <script>
+        /* ===============================================================
+           1. INITIAL DATA SEED (SDD ER MODELS: CATEGORIES, PRODUCTS, ETC.)
+           =============================================================== */
+        const CATEGORIES = [
+            { id: 'Templates', name: 'Templates', icon: '📄', desc: 'HTML, Django & Next.js Themes' },
+            { id: 'UI Kits',   name: 'UI Kits',   icon: '🎨', desc: 'Figma & Design Systems' },
+            { id: 'Graphics',  name: 'Graphics',  icon: '🖼️', desc: '3D Renders, Textures & DLCs' },
+            { id: 'Courses',   name: 'Courses',   icon: '🎓', desc: 'Full-Stack Coding Bootcamps' },
+            { id: 'Fonts',     name: 'Fonts',     icon: '🔤', desc: 'Display & Sans Typefaces' },
+            { id: 'Icons',     name: 'Icons',     icon: '✨', desc: 'Pixel-Perfect SVG Icon Sets' }
+        ];
+
+        const INITIAL_PRODUCTS = [
+            {
+                id: 1,
+                title: 'Knight UI Kit Pro',
+                slug: 'knight-ui-kit',
+                category: 'UI Kits',
+                seller: 'Arena Studio',
+                price: 2500,
+                rating: 4.9,
+                sales: 420,
+                status: 'approved',
+                palette: ['#ff6b35', '#16213e', '#ffb347'],
+                icon: '🛡️',
+                formats: 'Figma, HTML5, Tailwind',
+                size: '64 MB',
+                description: 'A flagship dark-mode SaaS & gaming UI design system with 250+ responsive components, auto-layout 5.0 support, and interactive design tokens.',
+                reviews: [
+                    { user: 'Rahul K.', rating: 5, comment: 'Saved me weeks of design work. Crisp dark theme tokens!', date: '2 days ago' },
+                    { user: 'Sneha M.', rating: 5, comment: 'Best Figma component hierarchy I have purchased.', date: '1 week ago' }
+                ]
+            },
+            {
+                id: 2,
+                title: 'Arena Graphic Pack 4K',
+                slug: 'arena-graphic-pack',
+                category: 'Graphics',
+                seller: 'Arena Studio',
+                price: 1800,
+                rating: 4.8,
+                sales: 310,
+                status: 'approved',
+                palette: ['#9b59ff', '#1e1b4b', '#f43f5e'],
+                icon: '🌌',
+                formats: 'PNG, Blender, PSD',
+                size: '180 MB',
+                description: '60+ high-resolution abstract 3D meshes, cyberpunk aurora gradients, and neon glass overlays for modern hero headers.',
+                reviews: [
+                    { user: 'Vikram D.', rating: 5, comment: 'The aurora overlays look incredible on dark websites.', date: '3 days ago' }
+                ]
+            },
+            {
+                id: 3,
+                title: 'Ilania Premium Template',
+                slug: 'ilania-premium-template',
+                category: 'Templates',
+                seller: 'Ilania Team',
+                price: 3200,
+                rating: 5.0,
+                sales: 690,
+                status: 'approved',
+                palette: ['#ff6b35', '#0f0f1e', '#9b59ff'],
+                icon: '🚀',
+                formats: 'Django, Flask, HTML/JS',
+                size: '42 MB',
+                description: 'Complete multi-page digital marketplace template featuring 3D cards, role dashboards, and token-secured download flows.',
+                reviews: [
+                    { user: 'Priya S.', rating: 5, comment: 'Production-ready out of the box. Worth every rupee!', date: 'Yesterday' }
+                ]
+            },
+            {
+                id: 4,
+                title: 'Samurai DLC Asset Pack',
+                slug: 'samurai-dlc-pack',
+                category: 'Graphics',
+                seller: 'Nova Assets',
+                price: 999,
+                rating: 4.7,
+                sales: 275,
+                status: 'approved',
+                palette: ['#e11d48', '#18181b', '#f59e0b'],
+                icon: '⚔️',
+                formats: 'SVG, PNG, Unity Package',
+                size: '95 MB',
+                description: 'Stylized Neo-Tokyo samurai character sprites, katana slash VFX, and dark parallax environment layers.',
+                reviews: []
+            },
+            {
+                id: 5,
+                title: 'Nova Geometric Font Bundle',
+                slug: 'nova-font-bundle',
+                category: 'Fonts',
+                seller: 'Nova Assets',
+                price: 1200,
+                rating: 4.8,
+                sales: 190,
+                status: 'approved',
+                palette: ['#10b981', '#064e3b', '#34d399'],
+                icon: '🔤',
+                formats: 'OTF, TTF, WOFF2',
+                size: '18 MB',
+                description: '8 modern variable font families crafted for developer portfolios, fintech dashboards, and bold hero typography.',
+                reviews: []
+            },
+            {
+                id: 6,
+                title: 'Pixel & Neon Icon Set (1,500+)',
+                slug: 'pixel-icon-set',
+                category: 'Icons',
+                seller: 'Pixel Forge',
+                price: 600,
+                rating: 4.6,
+                sales: 530,
+                status: 'approved',
+                palette: ['#3b82f6', '#1e3a8a', '#60a5fa'],
+                icon: '✨',
+                formats: 'SVG, Figma, React Icons',
+                size: '24 MB',
+                description: '1,500+ dual-tone vector icons in 24px grid with customizable stroke weights and orange/purple accent fills.',
+                reviews: []
+            },
+            {
+                id: 7,
+                title: 'Cyberpunk Analytics UI Kit',
+                slug: 'cyberpunk-ui-dashboard',
+                category: 'UI Kits',
+                seller: 'Arena Studio',
+                price: 2100,
+                rating: 4.9,
+                sales: 340,
+                status: 'approved',
+                palette: ['#8b5cf6', '#0f172a', '#ff6b35'],
+                icon: '📊',
+                formats: 'Figma, Tailwind, React',
+                size: '52 MB',
+                description: 'Futuristic data visualization widgets, real-time telemetry charts, and glassmorphic command center layouts.',
+                reviews: []
+            },
+            {
+                id: 8,
+                title: 'Full-Stack Python & Django Mastery',
+                slug: 'fullstack-python-course',
+                category: 'Courses',
+                seller: 'Ilania Team',
+                price: 1499,
+                rating: 5.0,
+                sales: 810,
+                status: 'approved',
+                palette: ['#f59e0b', '#1e293b', '#10b981'],
+                icon: '🐍',
+                formats: 'MP4 HD Video + Source Code ZIP',
+                size: '1.4 GB',
+                description: 'Build complete e-commerce and digital marketplace platforms with Python, Flask, Django 4.x, ER diagrams, and deployment.',
+                reviews: []
+            },
+            {
+                id: 9,
+                title: 'Aurora 3D Shader Pack (Pending Demo)',
+                slug: 'aurora-shader-pack',
+                category: 'Graphics',
+                seller: 'Arena Studio',
+                price: 1650,
+                rating: 4.9,
+                sales: 0,
+                status: 'pending',
+                palette: ['#ec4899', '#31102f', '#a855f7'],
+                icon: '🔮',
+                formats: 'GLSL, Three.js, ZIP',
+                size: '38 MB',
+                description: 'Pre-seeded pending product so you can test the Admin Panel Approval workflow immediately!',
+                reviews: []
+            }
+        ];
+
+        /* ===============================================================
+           2. APPLICATION STATE
+           =============================================================== */
+        let state = {
+            currentView: 'home',
+            currentRole: 'buyer', // 'buyer' | 'seller' | 'admin'
+            products: [...INITIAL_PRODUCTS],
+            cart: [
+                { productId: 1, qty: 1 } // Pre-loaded with 1 item so user can test Cart right away
+            ],
+            wishlist: [3],
+            coupon: null, // { code: 'ILANIA20', percent: 20 }
+            orders: [
+                {
+                    id: 1021,
+                    date: '22 Oct 2026',
+                    total: 3520,
+                    status: 'PAID',
+                    items: [{ title: 'Ilania Premium Template', price: 3200 }]
+                }
+            ],
+            downloads: [
+                {
+                    id: 'dl-init-1',
+                    orderId: 1021,
+                    productId: 3,
+                    title: 'Ilania Premium Template',
+                    formats: 'Django, Flask, HTML/JS',
+                    token: 'tok_9f8a7d6c5b4e3a21',
+                    downloaded: false
+                }
+            ],
+            filters: {
+                category: 'ALL',
+                seller: null,
+                maxPrice: 5000,
+                minRating: 0,
+                wishlistOnly: false,
+                sort: 'featured'
+            }
+        };
+
+        /* ===============================================================
+           3. CUSTOM SVG THUMBNAIL GENERATOR (CRISP VISUAL COVERS)
+           =============================================================== */
+        function generateProductSVG(product) {
+            const [c1, c2, c3] = product.palette || ['#ff6b35', '#16213e', '#9b59ff'];
+            return `
+            <svg class="thumb-svg" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="grad-${product.id}" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="${c2}" />
+                        <stop offset="60%" stop-color="#0f0f1e" />
+                        <stop offset="100%" stop-color="${c1}" stop-opacity="0.55" />
+                    </linearGradient>
+                    <radialGradient id="glow-${product.id}" cx="75%" cy="25%" r="50%">
+                        <stop offset="0%" stop-color="${c3}" stop-opacity="0.45" />
+                        <stop offset="100%" stop-color="${c2}" stop-opacity="0" />
+                    </radialGradient>
+                </defs>
+                <rect width="400" height="250" fill="url(#grad-${product.id})" />
+                <rect width="400" height="250" fill="url(#glow-${product.id})" />
+                <!-- Decorative UI Mockup Frame -->
+                <rect x="28" y="26" width="344" height="198" rx="12" fill="#16213e" fill-opacity="0.75" stroke="${c1}" stroke-opacity="0.4" stroke-width="1.5"/>
+                <circle cx="46" cy="42" r="4" fill="#ff5f56"/>
+                <circle cx="58" cy="42" r="4" fill="#ffbd2e"/>
+                <circle cx="70" cy="42" r="4" fill="#27c93f"/>
+                <line x1="28" y1="56" x2="372" y2="56" stroke="#2a2a3e" stroke-width="1"/>
+                <!-- Mockup Grid Lines -->
+                <rect x="48" y="74" width="120" height="14" rx="4" fill="${c1}" fill-opacity="0.8"/>
+                <rect x="48" y="96" width="180" height="8" rx="3" fill="#a0a0b8" fill-opacity="0.35"/>
+                <rect x="48" y="112" width="140" height="8" rx="3" fill="#a0a0b8" fill-opacity="0.25"/>
+                <rect x="48" y="140" width="90" height="28" rx="6" fill="${c1}" fill-opacity="0.25" stroke="${c1}" stroke-width="1"/>
+                <!-- Floating Badge Icon -->
+                <circle cx="305" cy="135" r="42" fill="${c1}" fill-opacity="0.18" stroke="${c1}" stroke-opacity="0.5" stroke-width="1.5"/>
+                <text x="305" y="149" font-size="38" text-anchor="middle">${product.icon || '📦'}</text>
+            </svg>`;
+        }
+
+        /* ===============================================================
+           4. SPA NAVIGATION & ROLE SWITCHING
+           =============================================================== */
+        function navigateTo(viewName) {
+            state.currentView = viewName;
+            document.querySelectorAll('.spa-view').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`view-${viewName}`);
+            if (target) target.classList.remove('hidden');
+
+            // Update active nav styling
+            document.querySelectorAll('.nav-item').forEach(a => {
+                if (a.dataset.nav === viewName) {
+                    a.classList.add('text-accent', 'font-semibold');
+                    a.classList.remove('text-textMain');
+                } else {
+                    a.classList.remove('text-accent', 'font-semibold');
+                    a.classList.add('text-textMain');
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Render view-specific data
+            if (viewName === 'home') renderHomeView();
+            if (viewName === 'products') renderExploreProducts();
+            if (viewName === 'cart') {
+                goToCheckoutStep(1);
+                renderCartView();
+            }
+            if (viewName === 'buyer') renderBuyerDashboard();
+            if (viewName === 'seller') renderSellerDashboard();
+            if (viewName === 'admin') renderAdminDashboard();
+        }
+
+        function switchUserRole(newRole) {
+            state.currentRole = newRole;
+            document.getElementById('roleSelector').value = newRole;
+            const roleContainer = document.getElementById('navRoleLinkContainer');
+            const quickBtn = document.getElementById('dashboardQuickBtn');
+
+            if (newRole === 'buyer') {
+                roleContainer.innerHTML = `<a href="#buyer" onclick="navigateTo('buyer'); return false;" class="text-emerald-400 font-semibold hover:underline">📋 My Orders</a>`;
+                quickBtn.textContent = '👤 Buyer Portal';
+                showToast('👤 Switched to Buyer Role', 'info');
+            } else if (newRole === 'seller') {
+                roleContainer.innerHTML = `<a href="#seller" onclick="navigateTo('seller'); return false;" class="text-accent font-semibold hover:underline">🏪 Seller Studio</a>`;
+                quickBtn.textContent = '🏪 Seller Studio';
+                showToast('🏪 Switched to Seller Role (Arena Studio)', 'success');
+            } else if (newRole === 'admin') {
+                const pendingCount = state.products.filter(p => p.status === 'pending').length;
+                roleContainer.innerHTML = `<a href="#admin" onclick="navigateTo('admin'); return false;" class="text-purpleAccent font-semibold hover:underline">🛡️ Admin Panel (${pendingCount})</a>`;
+                quickBtn.textContent = '🛡️ Admin Panel';
+                showToast('🛡️ Switched to Admin Role', 'success');
+            }
+        }
+
+        function navigateToRoleDashboard() {
+            if (state.currentRole === 'seller') navigateTo('seller');
+            else if (state.currentRole === 'admin') navigateTo('admin');
+            else navigateTo('buyer');
+        }
+
+        /* ===============================================================
+           5. PRODUCT CARD HTML BUILDER + 3D TILT / SPOTLIGHT BINDING
+           =============================================================== */
+        function createProductCardHTML(p) {
+            const inWish = state.wishlist.includes(p.id);
+            return `
+            <div class="product-card group flex flex-col justify-between" data-pid="${p.id}">
+                <div>
+                    <div class="thumb-wrap cursor-pointer" onclick="openProductModal(${p.id})">
+                        ${generateProductSVG(p)}
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[11px] font-bold bg-bgDark/85 text-accent border border-accent/30 backdrop-blur-md">
+                            ${p.category}
+                        </span>
+                        <button onclick="event.stopPropagation(); toggleWishlist(${p.id})" 
+                            class="absolute top-3 right-3 w-8 h-8 rounded-full bg-bgDark/80 hover:bg-bgDark flex items-center justify-center text-sm transition-transform hover:scale-110"
+                            title="Toggle Wishlist">
+                            ${inWish ? '❤️' : '🤍'}
+                        </button>
+                    </div>
+
+                    <div class="p-4">
+                        <div class="flex items-center justify-between text-xs text-textDim mb-1">
+                            <span>By <strong class="text-textMain">${p.seller}</strong></span>
+                            <span class="text-amber-400 font-semibold">★ ${p.rating.toFixed(1)}</span>
+                        </div>
+                        <h3 onclick="openProductModal(${p.id})" class="font-bold text-base text-white group-hover:text-accent transition-colors cursor-pointer truncate">
+                            ${p.title}
+                        </h3>
+                        <p class="text-xs text-textDim mt-1 line-clamp-2">${p.description}</p>
+                    </div>
+                </div>
+
+                <div class="px-4 pb-4 pt-2 border-t border-borderDark/60 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] text-textDim block">License Price</span>
+                        <span class="text-lg font-extrabold text-accent">₹${p.price.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="openProductModal(${p.id})" class="px-3 py-2 rounded-xl bg-bgHover hover:bg-borderDark text-xs font-semibold transition-colors">
+                            Details
+                        </button>
+                        <button onclick="addToCart(${p.id}, this)" class="btn-accent px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1 shadow-md">
+                            <span>🛒</span>
+                            <span>Add</span>
+                        </button>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function attachCardInteractiveEffects(container) {
+            if (!container) return;
+            const cards = container.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const r = card.getBoundingClientRect();
+                    const x = e.clientX - r.left;
+                    const y = e.clientY - r.top;
+                    card.style.setProperty('--mx', `${x}px`);
+                    card.style.setProperty('--my', `${y}px`);
+
+                    const normX = (x / r.width) - 0.5;
+                    const normY = (y / r.height) - 0.5;
+                    card.style.transform = `perspective(900px) translateY(-6px) rotateX(${-normY * 7}deg) rotateY(${normX * 7}deg)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+        }
+
+        /* ===============================================================
+           6. RENDER HOME & EXPLORE VIEWS
+           =============================================================== */
+        function renderHomeView() {
+            const approved = state.products.filter(p => p.status === 'approved');
+            document.getElementById('homeTotalCount').textContent = approved.length;
+
+            const featuredGrid = document.getElementById('homeFeaturedGrid');
+            featuredGrid.innerHTML = approved.slice(0, 8).map(createProductCardHTML).join('');
+            attachCardInteractiveEffects(featuredGrid);
+
+            // Render 3D Flip Category Cards
+            const catGrid = document.getElementById('homeCategoryGrid');
+            catGrid.innerHTML = CATEGORIES.map(c => {
+                const count = approved.filter(p => p.category === c.id).length;
+                return `
+                <div class="flip-card" onclick="filterByCategory('${c.id}')">
+                    <div class="flip-inner">
+                        <div class="flip-face">
+                            <span class="text-3xl mb-2">${c.icon}</span>
+                            <h4 class="font-bold text-sm text-white">${c.name}</h4>
+                            <span class="text-[11px] text-textDim mt-1">${count} Products</span>
+                        </div>
+                        <div class="flip-face flip-back">
+                            <span class="text-2xl mb-1">${c.icon}</span>
+                            <h4 class="font-extrabold text-sm">${c.name}</h4>
+                            <p class="text-[11px] text-white/90 mt-1">${c.desc}</p>
+                            <span class="mt-2 inline-block px-2.5 py-0.5 rounded-full bg-black/30 text-[10px] font-bold">Explore ${count} Items →</span>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderCategorySidebar() {
+            const approved = state.products.filter(p => p.status === 'approved');
+            const list = document.getElementById('categoryFilterList');
+            const allCategories = [{ id: 'ALL', name: 'All Categories', icon: '🌐' }, ...CATEGORIES];
+
+            list.innerHTML = allCategories.map(c => {
+                const count = c.id === 'ALL' ? approved.length : approved.filter(p => p.category === c.id).length;
+                const active = state.filters.category === c.id;
+                return `
+                <button onclick="setCategoryFilter('${c.id}')" 
+                    class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all ${active ? 'bg-accent text-white shadow-md' : 'bg-bgDark text-textDim hover:text-white hover:bg-bgHover'}">
+                    <span>${c.icon} ${c.name}</span>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] ${active ? 'bg-black/25 text-white' : 'bg-bgCard text-textDim'}">${count}</span>
+                </button>`;
+            }).join('');
+        }
+
+        function renderExploreProducts() {
+            renderCategorySidebar();
+            const q = (document.getElementById('exploreSearchInput')?.value || '').trim().toLowerCase();
+            const minRating = parseFloat(document.getElementById('ratingFilterSelect')?.value || '0');
+            const wishOnly = document.getElementById('wishlistOnlyToggle')?.checked || false;
+            const sortMode = document.getElementById('sortOrderSelect')?.value || 'featured';
+
+            let list = state.products.filter(p => p.status === 'approved');
+
+            if (state.filters.category !== 'ALL') {
+                list = list.filter(p => p.category === state.filters.category);
+            }
+            if (state.filters.seller) {
+                list = list.filter(p => p.seller === state.filters.seller);
+                const badge = document.getElementById('activeSellerFilterBadge');
+                badge.textContent = `Seller: ${state.filters.seller} ✕`;
+                badge.classList.remove('hidden');
+                badge.onclick = () => { state.filters.seller = null; badge.classList.add('hidden'); renderExploreProducts(); };
+            } else {
+                document.getElementById('activeSellerFilterBadge')?.classList.add('hidden');
+            }
+            if (q) {
+                list = list.filter(p => p.title.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+            }
+            list = list.filter(p => p.price <= state.filters.maxPrice && p.rating >= minRating);
+            if (wishOnly) {
+                list = list.filter(p => state.wishlist.includes(p.id));
+            }
+
+            if (sortMode === 'price-asc') list.sort((a, b) => a.price - b.price);
+            else if (sortMode === 'price-desc') list.sort((a, b) => b.price - a.price);
+            else if (sortMode === 'rating-desc') list.sort((a, b) => b.rating - a.rating);
+            else if (sortMode === 'newest') list.sort((a, b) => b.id - a.id);
+
+            document.getElementById('exploreResultCount').textContent = list.length;
+            const grid = document.getElementById('exploreProductGrid');
+            const empty = document.getElementById('exploreEmptyState');
+
+            if (list.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+            } else {
+                empty.classList.add('hidden');
+                grid.innerHTML = list.map(createProductCardHTML).join('');
+                attachCardInteractiveEffects(grid);
+            }
+        }
+
+        function setCategoryFilter(catId) {
+            state.filters.category = catId;
+            renderExploreProducts();
+        }
+
+        function filterByCategory(catId) {
+            state.filters.category = catId;
+            state.filters.seller = null;
+            navigateTo('products');
+        }
+
+        function filterBySeller(sellerName) {
+            state.filters.seller = sellerName;
+            state.filters.category = 'ALL';
+            navigateTo('products');
+        }
+
+        function updatePriceSlider(val) {
+            state.filters.maxPrice = parseInt(val);
+            document.getElementById('priceSliderLabel').textContent = `₹${parseInt(val).toLocaleString('en-IN')}`;
+            renderExploreProducts();
+        }
+
+        function resetProductFilters() {
+            state.filters = { category: 'ALL', seller: null, maxPrice: 5000, minRating: 0, wishlistOnly: false, sort: 'featured' };
+            document.getElementById('exploreSearchInput').value = '';
+            document.getElementById('priceRangeSlider').value = 5000;
+            document.getElementById('priceSliderLabel').textContent = '₹5,000';
+            document.getElementById('ratingFilterSelect').value = '0';
+            document.getElementById('wishlistOnlyToggle').checked = false;
+            document.getElementById('sortOrderSelect').value = 'featured';
+            renderExploreProducts();
+        }
+
+        function openWishlistView() {
+            navigateTo('products');
+            const toggle = document.getElementById('wishlistOnlyToggle');
+            toggle.checked = true;
+            renderExploreProducts();
+            showToast('❤️ Filtering by your saved Wishlist items', 'info');
+        }
+
+        /* ===============================================================
+           7. PRODUCT DETAIL MODAL & CUSTOMER REVIEWS
+           =============================================================== */
+        function openProductModal(productId) {
+            const p = state.products.find(x => x.id === productId);
+            if (!p) return;
+
+            document.getElementById('modalBreadcrumb').textContent = `${p.category} / ${p.title}`;
+            const body = document.getElementById('productModalBody');
+
+            const reviewsHTML = (p.reviews && p.reviews.length > 0)
+                ? p.reviews.map(r => `
+                    <div class="p-4 rounded-xl bg-bgDark border border-borderDark">
+                        <div class="flex items-center justify-between text-xs mb-1.5">
+                            <strong class="text-white">👤 ${r.user}</strong>
+                            <span class="text-amber-400">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)} · <span class="text-textDim">${r.date}</span></span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-textDim">${r.comment}</p>
+                    </div>`).join('')
+                : `<p class="text-xs text-textDim italic">No customer reviews yet. Be the first to review ${p.title}!</p>`;
+
+            body.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div class="rounded-2xl overflow-hidden border border-borderDark bg-bgDark">
+                        ${generateProductSVG(p)}
+                        <div class="p-4 bg-bgDark border-t border-borderDark grid grid-cols-3 gap-2 text-center text-xs">
+                            <div class="p-2 rounded-lg bg-bgCard"><span class="text-textDim block text-[10px]">Format</span><strong>${p.formats}</strong></div>
+                            <div class="p-2 rounded-lg bg-bgCard"><span class="text-textDim block text-[10px]">File Size</span><strong>${p.size}</strong></div>
+                            <div class="p-2 rounded-lg bg-bgCard"><span class="text-textDim block text-[10px]">Sales</span><strong>${p.sales}+</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <span class="px-3 py-1 rounded-full bg-accent/15 text-accent text-xs font-bold">${p.category}</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold mt-3 mb-2">${p.title}</h2>
+                            <div class="flex items-center gap-4 text-xs text-textDim mb-4">
+                                <span>By <strong class="text-white">${p.seller} ✓</strong></span>
+                                <span class="text-amber-400 font-bold">★ ${p.rating.toFixed(1)} (${p.reviews.length} reviews)</span>
+                            </div>
+                            <div class="text-3xl font-black text-accent mb-4">₹${p.price.toLocaleString('en-IN')}</div>
+                            <p class="text-sm text-textDim leading-relaxed mb-6">${p.description}</p>
+
+                            <ul class="space-y-1.5 text-xs text-textDim mb-6">
+                                <li>✅ Commercial & Personal License Included</li>
+                                <li>✅ Instant Cryptographic Token Download</li>
+                                <li>✅ Lifetime Free Updates from ${p.seller}</li>
+                            </ul>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3 pt-4 border-t border-borderDark">
+                            <button onclick="addToCart(${p.id}, this)" class="btn-accent flex-1 py-3.5 px-6 rounded-xl font-bold text-sm shadow-lg">
+                                🛒 Add to Cart
+                            </button>
+                            <button onclick="addToCart(${p.id}); closeProductModal(); navigateTo('cart');" class="px-6 py-3.5 rounded-xl bg-purpleAccent hover:bg-purple-500 text-white font-bold text-sm transition-colors">
+                                ⚡ Buy Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Reviews Section -->
+                <div class="pt-6 border-t border-borderDark">
+                    <h3 class="text-lg font-bold mb-4">⭐ Customer Reviews (${p.reviews.length})</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                            ${reviewsHTML}
+                        </div>
+                        <form onsubmit="submitProductReview(event, ${p.id})" class="bg-bgDark border border-borderDark p-4 rounded-2xl space-y-3">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-accent">Write a Review</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <input id="revUserName" type="text" required placeholder="Your Name" value="Raj Gautam" class="px-3 py-2 bg-bgCard border border-borderDark rounded-xl text-xs focus:border-accent focus:outline-none">
+                                <select id="revRating" class="px-3 py-2 bg-bgCard border border-borderDark rounded-xl text-xs focus:border-accent focus:outline-none">
+                                    <option value="5">★★★★★ (5/5)</option>
+                                    <option value="4">★★★★☆ (4/5)</option>
+                                    <option value="3">★★★☆☆ (3/5)</option>
+                                </select>
+                            </div>
+                            <textarea id="revComment" rows="2" required placeholder="Share your experience with this digital asset..." class="w-full px-3 py-2 bg-bgCard border border-borderDark rounded-xl text-xs focus:border-accent focus:outline-none"></textarea>
+                            <button type="submit" class="btn-accent w-full py-2.5 rounded-xl text-xs font-bold">Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('productDetailModal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productDetailModal').classList.add('hidden');
+        }
+
+        function submitProductReview(e, productId) {
+            e.preventDefault();
+            const p = state.products.find(x => x.id === productId);
+            if (!p) return;
+            const user = document.getElementById('revUserName').value.trim() || 'Verified Buyer';
+            const rating = parseInt(document.getElementById('revRating').value);
+            const comment = document.getElementById('revComment').value.trim();
+
+            p.reviews.unshift({ user, rating, comment, date: 'Just now' });
+            const avg = p.reviews.reduce((s, r) => s + r.rating, 0) / p.reviews.length;
+            p.rating = Math.round(avg * 10) / 10;
+
+            showToast('⭐ Thank you! Your review has been published.', 'success');
+            openProductModal(productId);
+            if (state.currentView === 'home') renderHomeView();
+            if (state.currentView === 'products') renderExploreProducts();
+        }
+
+        /* ===============================================================
+           8. CART, FLY-TO-CART ANIMATION, WISHLIST & CHECKOUT
+           =============================================================== */
+        function updateNavBadges() {
+            const totalQty = state.cart.reduce((sum, item) => sum + item.qty, 0);
+            const cartBadge = document.getElementById('cartBadge');
+            cartBadge.textContent = totalQty;
+            document.getElementById('wishlistBadge').textContent = state.wishlist.length;
+        }
+
+        function toggleWishlist(productId) {
+            const idx = state.wishlist.indexOf(productId);
+            if (idx > -1) {
+                state.wishlist.splice(idx, 1);
+                showToast('Removed from Wishlist', 'info');
+            } else {
+                state.wishlist.push(productId);
+                showToast('❤️ Saved to your Wishlist!', 'success');
+            }
+            updateNavBadges();
+            if (state.currentView === 'home') renderHomeView();
+            if (state.currentView === 'products') renderExploreProducts();
+        }
+
+        function addToCart(productId, btnEl) {
+            const prod = state.products.find(p => p.id === productId);
+            if (!prod) return;
+
+            const existing = state.cart.find(i => i.productId === productId);
+            if (existing) existing.qty += 1;
+            else state.cart.push({ productId, qty: 1 });
+
+            // Fly-to-Cart Clone Animation
+            const cartBtn = document.getElementById('cartIconBtn');
+            const cardEl = btnEl ? btnEl.closest('.product-card') : null;
+            const thumbEl = cardEl ? cardEl.querySelector('.thumb-wrap') : btnEl;
+
+            if (thumbEl && cartBtn) {
+                const sRect = thumbEl.getBoundingClientRect();
+                const cRect = cartBtn.getBoundingClientRect();
+                const clone = document.createElement('div');
+                clone.className = 'flying-clone bg-accent flex items-center justify-center text-2xl';
+                clone.textContent = prod.icon || '📦';
+                clone.style.left = `${sRect.left + sRect.width / 2 - 28}px`;
+                clone.style.top = `${sRect.top + sRect.height / 2 - 28}px`;
+                clone.style.width = '56px';
+                clone.style.height = '56px';
+                document.body.appendChild(clone);
+
+                requestAnimationFrame(() => {
+                    clone.style.left = `${cRect.left + 8}px`;
+                    clone.style.top = `${cRect.top + 8}px`;
+                    clone.style.width = '14px';
+                    clone.style.height = '14px';
+                    clone.style.opacity = '0.2';
+                });
+
+                setTimeout(() => {
+                    clone.remove();
+                    cartBtn.classList.add('cart-bounce');
+                    const badge = document.getElementById('cartBadge');
+                    badge.classList.add('badge-pop');
+                    setTimeout(() => {
+                        cartBtn.classList.remove('cart-bounce');
+                        badge.classList.remove('badge-pop');
+                    }, 550);
+                }, 780);
+            }
+
+            updateNavBadges();
+            showToast(`🛒 Added "${prod.title}" to cart!`, 'success');
+        }
+
+        function renderCartView() {
+            const wrap = document.getElementById('cartContentWrap');
+            const empty = document.getElementById('cartEmptyState');
+            const listEl = document.getElementById('cartItemsContainer');
+
+            if (state.cart.length === 0) {
+                wrap.classList.add('hidden');
+                empty.classList.remove('hidden');
+                return;
+            }
+            wrap.classList.remove('hidden');
+            empty.classList.add('hidden');
+
+            let subtotal = 0;
+            let itemCount = 0;
+
+            listEl.innerHTML = state.cart.map(item => {
+                const p = state.products.find(x => x.id === item.productId);
+                if (!p) return '';
+                const lineTotal = p.price * item.qty;
+                subtotal += lineTotal;
+                itemCount += item.qty;
+
+                return `
+                <div id="cart-row-${p.id}" class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-bgCard border border-borderDark rounded-2xl p-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-xl bg-bgDark border border-borderDark flex items-center justify-center text-3xl shrink-0">
+                            ${p.icon || '📦'}
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-accent uppercase">${p.category}</span>
+                            <h4 class="font-bold text-base text-white">${p.title}</h4>
+                            <p class="text-xs text-textDim">By ${p.seller} · ₹${p.price.toLocaleString('en-IN')} each</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4">
+                        <div class="flex items-center bg-bgDark border border-borderDark rounded-xl">
+                            <button onclick="changeCartQty(${p.id}, -1)" class="px-3 py-1.5 text-sm hover:text-accent">−</button>
+                            <span class="px-3 text-sm font-bold">${item.qty}</span>
+                            <button onclick="changeCartQty(${p.id}, 1)" class="px-3 py-1.5 text-sm hover:text-accent">+</button>
+                        </div>
+                        <div class="text-right min-w-[85px]">
+                            <div class="font-extrabold text-accent">₹${lineTotal.toLocaleString('en-IN')}</div>
+                        </div>
+                        <button onclick="removeCartItemWithPop(${p.id})" class="p-2 rounded-lg bg-bgDark hover:bg-red-500/20 text-red-400 transition-colors" title="Remove Item">
+                            🗑️
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            const discount = state.coupon ? Math.round(subtotal * (state.coupon.percent / 100)) : 0;
+            const taxedBase = Math.max(subtotal - discount, 0);
+            const tax = Math.round(taxedBase * 0.10);
+            const grandTotal = taxedBase + tax;
+
+            document.getElementById('summaryItemCount').textContent = itemCount;
+            document.getElementById('summarySubtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+
+            const discRow = document.getElementById('summaryDiscountRow');
+            if (state.coupon) {
+                discRow.classList.remove('hidden');
+                document.getElementById('summaryCouponCode').textContent = `${state.coupon.code} -${state.coupon.percent}%`;
+                document.getElementById('summaryDiscountAmt').textContent = `-₹${discount.toLocaleString('en-IN')}`;
+            } else {
+                discRow.classList.add('hidden');
+            }
+
+            document.getElementById('summaryTax').textContent = `₹${tax.toLocaleString('en-IN')}`;
+            document.getElementById('summaryTotal').textContent = `₹${grandTotal.toLocaleString('en-IN')}`;
+            document.getElementById('checkoutPayBtnTotal').textContent = `₹${grandTotal.toLocaleString('en-IN')}`;
+        }
+
+        function changeCartQty(productId, delta) {
+            const item = state.cart.find(i => i.productId === productId);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) {
+                removeCartItemWithPop(productId);
+                return;
+            }
+            updateNavBadges();
+            renderCartView();
+        }
+
+        function removeCartItemWithPop(productId) {
+            const row = document.getElementById(`cart-row-${productId}`);
+            if (row) {
+                row.classList.add('popping');
+                setTimeout(() => {
+                    state.cart = state.cart.filter(i => i.productId !== productId);
+                    updateNavBadges();
+                    renderCartView();
+                    showToast('🗑️ Item removed from cart', 'info');
+                }, 340);
+            }
+        }
+
+        function applyCouponCode() {
+            const input = document.getElementById('couponInput');
+            const code = input.value.trim().toUpperCase();
+            if (code === 'ILANIA20') {
+                state.coupon = { code: 'ILANIA20', percent: 20 };
+                showToast('🎉 Promo code ILANIA20 applied (20% OFF)!', 'success');
+            } else if (code === 'SAVE10') {
+                state.coupon = { code: 'SAVE10', percent: 10 };
+                showToast('🎉 Promo code SAVE10 applied (10% OFF)!', 'success');
+            } else {
+                input.classList.add('shake');
+                setTimeout(() => input.classList.remove('shake'), 450);
+                showToast('⚠️ Invalid code! Try ILANIA20 or SAVE10', 'error');
+                return;
+            }
+            renderCartView();
+        }
+
+        function goToCheckoutStep(stepNum) {
+            document.getElementById('checkoutStep1').classList.toggle('hidden', stepNum !== 1);
+            document.getElementById('checkoutStep2').classList.toggle('hidden', stepNum !== 2);
+            document.getElementById('checkoutStep3').classList.toggle('hidden', stepNum !== 3);
+
+            [1, 2, 3].forEach(n => {
+                const el = document.getElementById(`stepIndicator${n}`);
+                if (n <= stepNum) {
+                    el.className = 'p-3 rounded-xl border border-accent bg-accent/15 text-center';
+                } else {
+                    el.className = 'p-3 rounded-xl border border-borderDark bg-bgCard text-center opacity-60';
+                }
+            });
+        }
+
+        function processDummyPayment(e) {
+            e.preventDefault();
+            if (state.cart.length === 0) return;
+
+            const btn = document.getElementById('paySubmitBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Verifying Payment & Minting Tokens...';
+
+            setTimeout(() => {
+                const orderId = Math.floor(1025 + Math.random() * 900);
+                let subtotal = 0;
+                const orderItems = [];
+                const newDownloads = [];
+
+                state.cart.forEach(item => {
+                    const p = state.products.find(x => x.id === item.productId);
+                    if (p) {
+                        subtotal += p.price * item.qty;
+                        p.sales += item.qty;
+                        orderItems.push({ title: p.title, price: p.price });
+                        const token = 'tok_' + Math.random().toString(36).substring(2, 12) + orderId;
+                        const dlObj = {
+                            id: 'dl-' + Date.now() + '-' + p.id,
+                            orderId,
+                            productId: p.id,
+                            title: p.title,
+                            formats: p.formats,
+                            token,
+                            downloaded: false
+                        };
+                        state.downloads.unshift(dlObj);
+                        newDownloads.push(dlObj);
+                    }
+                });
+
+                const discount = state.coupon ? Math.round(subtotal * (state.coupon.percent / 100)) : 0;
+                const grandTotal = Math.round((subtotal - discount) * 1.10);
+
+                state.orders.unshift({
+                    id: orderId,
+                    date: '24 Oct 2026',
+                    total: grandTotal,
+                    status: 'PAID',
+                    items: orderItems
+                });
+
+                // Render Success Screen Downloads
+                document.getElementById('successOrderMeta').textContent = `Order #${orderId} · Paid ₹${grandTotal.toLocaleString('en-IN')} · Instant Access Unlocked`;
+                document.getElementById('successDownloadList').innerHTML = newDownloads.map(d => `
+                    <div class="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-bgCard border border-borderDark">
+                        <div>
+                            <div class="font-bold text-sm text-white">📦 ${d.title}</div>
+                            <div class="text-[11px] text-textDim font-mono">Token: ${d.token}</div>
+                        </div>
+                        <button onclick="triggerSimulatedDownload('${d.token}', '${d.title.replace(/'/g, '')}')" class="btn-accent px-4 py-2 rounded-lg text-xs font-bold">
+                            ⬇️ Download ZIP
+                        </button>
+                    </div>
+                `).join('');
+
+                state.cart = [];
+                state.coupon = null;
+                updateNavBadges();
+
+                btn.disabled = false;
+                btn.textContent = '⚡ Pay & Generate Download Tokens';
+
+                goToCheckoutStep(3);
+                blastConfetti();
+                showToast(`🎉 Order #${orderId} confirmed! Downloads ready.`, 'success');
+            }, 650);
+        }
+
+        function triggerSimulatedDownload(token, title) {
+            const dl = state.downloads.find(d => d.token === token);
+            if (dl) dl.downloaded = true;
+
+            const receiptText = `====================================================
+ILANIA DIGITAL MARKETPLACE — OFFICIAL ASSET PACKAGE
+====================================================
+Creator & Architect : Raj Gautam (github.com/Rg100152)
+Product Title       : ${title}
+Security Token      : ${token}
+Verification Status : VALIDATED (SHA-256 Token Match)
+Timestamp           : ${new Date().toISOString()}
+License             : Commercial & Personal Use
+====================================================
+Thank you for testing Ilania Digital Marketplace!`;
+
+            const blob = new Blob([receiptText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title.toLowerCase().replace(/\s+/g, '-')}-license-package.txt`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+
+            showToast(`⬇️ Downloading "${title}" (Token verified)`, 'success');
+            if (state.currentView === 'buyer') renderBuyerDashboard();
+        }
+
+        /* ===============================================================
+           9. BUYER, SELLER & ADMIN DASHBOARD RENDERERS
+           =============================================================== */
+        function renderBuyerDashboard() {
+            const dlContainer = document.getElementById('buyerDownloadsContainer');
+            dlContainer.innerHTML = state.downloads.map(d => `
+                <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-bgDark border border-borderDark">
+                    <div>
+                        <span class="text-[10px] font-mono text-accent">ORDER #${d.orderId} · TOKEN: ${d.token}</span>
+                        <h4 class="font-bold text-base text-white">${d.title}</h4>
+                        <p class="text-xs text-textDim">Formats: ${d.formats} · Status: ${d.downloaded ? '<span class="text-emerald-400">Downloaded ✓</span>' : '<span class="text-amber-400">Ready for download</span>'}</p>
+                    </div>
+                    <button onclick="triggerSimulatedDownload('${d.token}', '${d.title.replace(/'/g, '')}')" class="btn-accent px-4 py-2.5 rounded-xl text-xs font-bold">
+                        ⬇️ Download Package
+                    </button>
+                </div>
+            `).join('');
+
+            const tbody = document.getElementById('buyerOrdersTableBody');
+            tbody.innerHTML = state.orders.map(o => `
+                <tr class="border-b border-borderDark/60 hover:bg-bgHover/40">
+                    <td class="py-3.5 px-4 font-mono font-bold text-accent">#${o.id}</td>
+                    <td class="py-3.5 px-4 text-textDim">${o.date}</td>
+                    <td class="py-3.5 px-4">${o.items.map(i => i.title).join(', ')}</td>
+                    <td class="py-3.5 px-4 font-bold">₹${o.total.toLocaleString('en-IN')}</td>
+                    <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold">${o.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function renderSellerDashboard() {
+            const myProducts = state.products.filter(p => p.seller === 'Arena Studio');
+            document.getElementById('sellerStatProducts').textContent = myProducts.length;
+
+            const tbody = document.getElementById('sellerProductsTableBody');
+            tbody.innerHTML = myProducts.map(p => {
+                const badgeClass = p.status === 'approved'
+                    ? 'bg-emerald-500/20 text-emerald-400'
+                    : p.status === 'pending'
+                        ? 'bg-amber-500/20 text-amber-400'
+                        : 'bg-red-500/20 text-red-400';
+
+                return `
+                <tr class="border-b border-borderDark/60 hover:bg-bgHover/40">
+                    <td class="py-3.5 px-4 font-bold flex items-center gap-2.5">
+                        <span class="text-xl">${p.icon || '📦'}</span>
+                        <span>${p.title}</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-textDim">${p.category}</td>
+                    <td class="py-3.5 px-4 font-bold text-accent">₹${p.price.toLocaleString('en-IN')}</td>
+                    <td class="py-3.5 px-4">
+                        <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase ${badgeClass}">${p.status}</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-right space-x-2">
+                        <button onclick="openProductModal(${p.id})" class="text-xs text-textDim hover:text-white">Preview</button>
+                        <button onclick="deleteSellerProduct(${p.id})" class="text-xs text-red-400 hover:underline">🗑️ Delete</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function openAddProductModal() {
+            document.getElementById('addProductModal').classList.remove('hidden');
+        }
+        function closeAddProductModal() {
+            document.getElementById('addProductModal').classList.add('hidden');
+        }
+
+        function submitNewSellerProduct(e) {
+            e.preventDefault();
+            const title = document.getElementById('newProdTitle').value.trim();
+            const category = document.getElementById('newProdCategory').value;
+            const price = parseInt(document.getElementById('newProdPrice').value) || 999;
+            const description = document.getElementById('newProdDesc').value.trim();
+            const status = document.getElementById('newProdStatus').value;
+
+            const newId = Math.max(...state.products.map(p => p.id)) + 1;
+            state.products.unshift({
+                id: newId,
+                title,
+                slug: title.toLowerCase().replace(/\s+/g, '-'),
+                category,
+                seller: 'Arena Studio',
+                price,
+                rating: 5.0,
+                sales: 1,
+                status,
+                palette: ['#ff6b35', '#16213e', '#9b59ff'],
+                icon: '✨',
+                formats: 'ZIP, Figma, Source',
+                size: '45 MB',
+                description,
+                reviews: []
+            });
+
+            closeAddProductModal();
+            e.target.reset();
+
+            if (status === 'pending') {
+                showToast(`⏳ "${title}" uploaded! Switch to Admin role to approve it.`, 'info');
+            } else {
+                showToast(`✅ "${title}" is now live in the marketplace!`, 'success');
+            }
+
+            if (state.currentView === 'seller') renderSellerDashboard();
+            if (state.currentView === 'admin') renderAdminDashboard();
+            if (state.currentView === 'home') renderHomeView();
+            if (state.currentView === 'products') renderExploreProducts();
+        }
+
+        function deleteSellerProduct(productId) {
+            state.products = state.products.filter(p => p.id !== productId);
+            showToast('🗑️ Product listing deleted', 'info');
+            renderSellerDashboard();
+        }
+
+        function renderAdminDashboard() {
+            const pending = state.products.filter(p => p.status === 'pending');
+            document.getElementById('adminStatTotalProducts').textContent = state.products.length;
+            document.getElementById('adminStatPending').textContent = pending.length;
+
+            const tbody = document.getElementById('adminApprovalTableBody');
+            if (pending.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-textDim">🎉 All seller products have been reviewed! Click "+ Simulate Seller Upload" above to test the approval queue.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = pending.map(p => `
+                <tr class="border-b border-borderDark/60 hover:bg-bgHover/40">
+                    <td class="py-3.5 px-4 font-bold">${p.icon || '📦'} ${p.title}</td>
+                    <td class="py-3.5 px-4 text-textDim">${p.seller}</td>
+                    <td class="py-3.5 px-4">${p.category}</td>
+                    <td class="py-3.5 px-4 font-bold text-accent">₹${p.price.toLocaleString('en-IN')}</td>
+                    <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold">PENDING</span></td>
+                    <td class="py-3.5 px-4 text-right space-x-2">
+                        <button onclick="adminProductDecision(${p.id}, 'approved')" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-white text-xs font-bold transition-colors">✅ Approve</button>
+                        <button onclick="adminProductDecision(${p.id}, 'rejected')" class="px-3 py-1.5 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-300 hover:text-white text-xs font-bold transition-colors">❌ Reject</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function adminProductDecision(productId, decision) {
+            const prod = state.products.find(p => p.id === productId);
+            if (!prod) return;
+            prod.status = decision;
+            showToast(decision === 'approved' ? `✅ Approved "${prod.title}" — Now visible to buyers!` : `❌ Rejected "${prod.title}"`, decision === 'approved' ? 'success' : 'error');
+            renderAdminDashboard();
+            switchUserRole('admin');
+        }
+
+        /* ===============================================================
+           10. GLOBAL LIVE SEARCH AUTOCOMPLETE
+           =============================================================== */
+        const globalSearchInput = document.getElementById('globalSearchInput');
+        const searchDropdown = document.getElementById('searchAutocomplete');
+
+        globalSearchInput.addEventListener('input', (e) => {
+            const q = e.target.value.trim().toLowerCase();
+            if (q.length < 1) {
+                searchDropdown.classList.add('hidden');
+                return;
+            }
+            const matches = state.products.filter(p => p.status === 'approved' && (p.title.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)));
+
+            if (matches.length === 0) {
+                searchDropdown.innerHTML = `<div class="p-4 text-xs text-textDim">No matching products for "${q}"</div>`;
+            } else {
+                searchDropdown.innerHTML = matches.slice(0, 5).map(p => `
+                    <button onclick="openProductModal(${p.id}); document.getElementById('searchAutocomplete').classList.add('hidden');" 
+                        class="w-full flex items-center justify-between px-4 py-3 hover:bg-bgHover border-b border-borderDark/60 text-left transition-colors">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">${p.icon}</span>
+                            <div>
+                                <div class="text-xs font-bold text-white">${p.title}</div>
+                                <div class="text-[10px] text-textDim">${p.category} · By ${p.seller}</div>
+                            </div>
+                        </div>
+                        <span class="text-xs font-extrabold text-accent">₹${p.price.toLocaleString('en-IN')}</span>
+                    </button>
+                `).join('');
+            }
+            searchDropdown.classList.remove('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!globalSearchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
+                searchDropdown.classList.add('hidden');
+            }
+        });
+
+        function triggerGlobalSearch() {
+            const q = globalSearchInput.value.trim();
+            navigateTo('products');
+            const exploreInput = document.getElementById('exploreSearchInput');
+            if (exploreInput) {
+                exploreInput.value = q;
+                renderExploreProducts();
+            }
+            searchDropdown.classList.add('hidden');
+        }
+
+        /* ===============================================================
+           11. ADVANCED ANIMATIONS ENGINE (PARTICLES, CONFETTI, SCRAMBLE, ETC.)
+           =============================================================== */
+        // Toast Notification with Auto-Shrinking Progress Bar
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast-item ${type} pointer-events-auto flex items-center justify-between gap-3 text-xs sm:text-sm font-medium`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(120%)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
+        }
+
+        // Scroll Progress Bar + Navbar Glass Shrink
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+            document.getElementById('scrollProgress').style.width = `${pct}%`;
+        });
+
+        // Button Ripple Click Effect
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.btn-accent');
+            if (!btn) return;
+            const rect = btn.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const span = document.createElement('span');
+            span.className = 'ripple-span';
+            span.style.width = span.style.height = `${size}px`;
+            span.style.left = `${e.clientX - rect.left - size / 2}px`;
+            span.style.top = `${e.clientY - rect.top - size / 2}px`;
+            btn.appendChild(span);
+            setTimeout(() => span.remove(), 600);
+        });
+
+        // Logo Text Scramble Effect
+        const logoLink = document.getElementById('logoLink');
+        const logoText = document.getElementById('logoText');
+        const scrambleChars = '!<>-_\\/[]{}—=+*^?#';
+        logoLink.addEventListener('mouseenter', () => {
+            const target = 'Ilania';
+            let iteration = 0;
+            const interval = setInterval(() => {
+                logoText.textContent = target.split('').map((letter, idx) => {
+                    if (idx < iteration) return target[idx];
+                    return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+                }).join('');
+                if (iteration >= target.length) clearInterval(interval);
+                iteration += 1 / 2;
+            }, 35);
+        });
+
+        // Typewriter Effect on Hero Title
+        function startHeroTypewriter() {
+            const phrases = ['Better experience', 'Premium UI assets', 'Instant downloads', 'Creator freedom'];
+            let pIndex = 0;
+            let charIndex = 0;
+            let deleting = false;
+            const el = document.getElementById('typewriterText');
+
+            function tick() {
+                if (!el) return;
+                const current = phrases[pIndex];
+                el.textContent = current.substring(0, charIndex);
+
+                if (!deleting && charIndex < current.length) {
+                    charIndex++;
+                    setTimeout(tick, 85);
+                } else if (!deleting && charIndex === current.length) {
+                    deleting = true;
+                    setTimeout(tick, 2200);
+                } else if (deleting && charIndex > 0) {
+                    charIndex--;
+                    setTimeout(tick, 40);
+                } else {
+                    deleting = false;
+                    pIndex = (pIndex + 1) % phrases.length;
+                    setTimeout(tick, 300);
+                }
+            }
+            tick();
+        }
+
+        // Odometer Number Count-Up
+        function runOdometers() {
+            document.querySelectorAll('.odometer').forEach(el => {
+                const target = parseInt(el.dataset.target || '0');
+                const duration = 1400;
+                const start = performance.now();
+                function step(now) {
+                    const p = Math.min((now - start) / duration, 1);
+                    const eased = 1 - Math.pow(1 - p, 3);
+                    el.textContent = Math.floor(target * eased).toLocaleString('en-IN');
+                    if (p < 1) requestAnimationFrame(step);
+                }
+                requestAnimationFrame(step);
+            });
+        }
+
+        // Floating Hero Particles Canvas
+        function initHeroParticles() {
+            const canvas = document.getElementById('particleCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let W, H, particles;
+
+            function resize() {
+                W = canvas.width = canvas.offsetWidth || window.innerWidth;
+                H = canvas.height = canvas.offsetHeight || 600;
+                particles = Array.from({ length: 38 }, () => ({
+                    x: Math.random() * W,
+                    y: Math.random() * H,
+                    r: Math.random() * 2 + 0.8,
+                    vx: (Math.random() - 0.5) * 0.35,
+                    vy: (Math.random() - 0.5) * 0.35,
+                    alpha: Math.random() * 0.55 + 0.2
+                }));
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > W) p.vx *= -1;
+                    if (p.y < 0 || p.y > H) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 107, 53, ${p.alpha})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        // Subtle Cursor Trail (Desktop)
+        let lastDotTime = 0;
+        window.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastDotTime < 55) return;
+            lastDotTime = now;
+            const dot = document.createElement('div');
+            dot.className = 'cursor-dot';
+            dot.style.left = `${e.clientX}px`;
+            dot.style.top = `${e.clientY}px`;
+            document.body.appendChild(dot);
+            setTimeout(() => dot.remove(), 650);
+        });
+
+        // Order Success Confetti Blast
+        function blastConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            canvas.classList.remove('hidden');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const colors = ['#ff6b35', '#ffb347', '#9b59ff', '#2ecc71', '#38bdf8'];
+            const pieces = Array.from({ length: 110 }, () => ({
+                x: canvas.width / 2 + (Math.random() - 0.5) * 180,
+                y: canvas.height / 2,
+                vx: (Math.random() - 0.5) * 15,
+                vy: Math.random() * -16 - 4,
+                size: Math.random() * 7 + 4,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                rot: Math.random() * Math.PI,
+                vr: (Math.random() - 0.5) * 0.25,
+                life: 1
+            }));
+
+            let frame = 0;
+            function loop() {
+                frame++;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    p.vy += 0.42;
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.rot += p.vr;
+                    p.life -= 0.007;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot);
+                    ctx.globalAlpha = Math.max(p.life, 0);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.5);
+                    ctx.restore();
+                });
+                if (frame < 160) requestAnimationFrame(loop);
+                else canvas.classList.add('hidden');
+            }
+            loop();
+        }
+
+        /* ===============================================================
+           12. INITIALIZE ON WINDOW LOAD
+           =============================================================== */
+        window.onload = function () {
+            switchUserRole('buyer');
+            updateNavBadges();
+            renderHomeView();
+            initHeroParticles();
+            startHeroTypewriter();
+            runOdometers();
+        };
+    </script>
+</body>
+</html>
